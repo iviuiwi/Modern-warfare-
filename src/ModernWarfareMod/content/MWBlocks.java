@@ -148,13 +148,13 @@ public class MWBlocks {
             coolantMultiplier = 2;
             heatColor = Color.valueOf("#FF0000");
             ammo(
-                    MWItems.zidanjuhenengyuan, new BulletType(5.2f, 200) {{
+                    MWItems.zidanjuhenengyuan, new BulletType(0.8f, 200) {{
                         pierceCap = 1;
                         reloadMultiplier = 3.3F;
-                        speed = 40;
+                        speed = 4;
                         damage = 50;
                         knockback = 1.1F;
-                        lifetime = 30;
+                        lifetime = 90;
                         ammoMultiplier = 2;
 
                     }});
@@ -170,14 +170,14 @@ public class MWBlocks {
             inaccuracy = 3;
             ammoPerShot = 1;
             ammo(
-                    MWItems.paodannengyuan, new BulletType(3, 350) {
+                    MWItems.paodannengyuan, new BulletType(0.9f, 350) {
                         {
                             pierceCap = 1;
                             reloadMultiplier = 3.3F;
-                            speed = 3;
+                            speed = 0.9f;
                             damage = 350;
                             knockback = 9.3F;
-                            lifetime = 45;
+                            lifetime = 90;
                             ammoMultiplier = 1;
                             recoil = 5;
                         }
@@ -218,7 +218,7 @@ public class MWBlocks {
                                 knockback = 0.3f;
                                 speed = 1;
                                 reloadMultiplier = 1;
-                                lifetime = 49;
+                                lifetime = 90;
                                 range = 400;
                             }
                         }
