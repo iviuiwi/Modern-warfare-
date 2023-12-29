@@ -3,7 +3,9 @@ package ModernWarfareMod.content;
 import arc.graphics.Color;
 import mindustry.content.Fx;
 import mindustry.content.Items;
+import mindustry.entities.bullet.BasicBulletType;
 import mindustry.entities.bullet.BulletType;
+import mindustry.entities.bullet.SapBulletType;
 import mindustry.type.Category;
 import mindustry.type.ItemStack;
 import mindustry.world.blocks.defense.Wall;
@@ -148,10 +150,12 @@ public class MWBlocks {
             coolantMultiplier = 2;
             heatColor = Color.valueOf("#FF0000");
             ammo(
-                    MWItems.zidanjuhenengyuan, new BulletType(0.8f, 200) {{
+                    MWItems.zidanjuhenengyuan, new BasicBulletType() {{
+                        width = 14f;
+                        height = 19f;
                         pierceCap = 1;
                         reloadMultiplier = 3.3F;
-                        speed = 4;
+                        speed = 2;
                         damage = 50;
                         knockback = 1.1F;
                         lifetime = 90;
@@ -170,11 +174,11 @@ public class MWBlocks {
             inaccuracy = 3;
             ammoPerShot = 1;
             ammo(
-                    MWItems.paodannengyuan, new BulletType(0.9f, 350) {
+                    MWItems.paodannengyuan, new BasicBulletType() {
                         {
                             pierceCap = 1;
                             reloadMultiplier = 3.3F;
-                            speed = 0.9f;
+                            speed = 8f;
                             damage = 350;
                             knockback = 9.3F;
                             lifetime = 90;
@@ -205,7 +209,7 @@ public class MWBlocks {
                 coolantMultiplier = 2;
                 heatColor = Color.red;
                 ammo(
-                        MWItems.paodannengyuan, new BulletType(1.2f, 350) {
+                        MWItems.paodannengyuan, new BasicBulletType() {
                             {
                                 status = burning;
                                 pierceCap = 1;
@@ -216,7 +220,7 @@ public class MWBlocks {
                                 shootEffect = shootBig;
                                 ammoMultiplier = 10;
                                 knockback = 0.3f;
-                                speed = 1;
+                                speed = 3;
                                 reloadMultiplier = 1;
                                 lifetime = 90;
                                 range = 400;

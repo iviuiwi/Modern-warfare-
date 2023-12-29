@@ -3,20 +3,19 @@ package ModernWarfareMod.content;
 import arc.graphics.Color;
 import mindustry.ai.UnitCommand;
 import mindustry.content.Fx;
-import mindustry.entities.bullet.BasicBulletType;
-import mindustry.entities.bullet.BulletType;
-import mindustry.entities.bullet.MissileBulletType;
-import mindustry.entities.bullet.SapBulletType;
+import mindustry.content.StatusEffects;
+import mindustry.entities.bullet.*;
 import mindustry.entities.pattern.ShootSpread;
 import mindustry.gen.LegsUnit;
 import mindustry.gen.MechUnit;
 import mindustry.gen.Sounds;
+import mindustry.graphics.Pal;
 import mindustry.type.UnitType;
 import mindustry.type.Weapon;
 import mindustry.type.unit.ErekirUnitType;
 
 public class MWUnitTypes {
-    public static UnitType nsxpp,xns,feiji1;
+    public static UnitType nsxpp,xns,feiji1,zns;
 
     public static void load() {
         MWUnitTypes instance = new MWUnitTypes();
@@ -199,7 +198,129 @@ public class MWUnitTypes {
                         bullet = b;
                     }}
                 );
+            }};
+
+            zns = new UnitType("z-ns"){{
+                constructor = MechUnit::create;
+                speed = 2.7F;
+                drag = 0.1F;
+                hitSize = 21.0F;
+                rotateSpeed = 3.0F;
+                health = 2024520;
+                armor = 10.0F;
+                hovering = true;//悬浮
+                groundLayer = 74.0F;//图层
+                faceTarget = false;
+
+                BulletType w = new LaserBulletType(){{
+                    length = 460f;
+                    damage = 560f;
+                    width = 110f;
+
+                    lifetime = 65f;
+
+                    lightningSpacing = 35f;
+                    lightningLength = 5;
+                    lightningDelay = 1.1f;
+                    lightningLengthRand = 15;
+                    lightningDamage = 50;
+                    lightningAngleRand = 40f;
+                    largeHit = true;
+                    lightColor = lightningColor = Pal.heal;
+
+                    chargeEffect = Fx.greenLaserCharge;
+
+                    healPercent = 25f;
+                    collidesTeam = true;
+
+                    sideAngle = 15f;
+                    sideWidth = 0f;
+                    sideLength = 0f;
+                    colors = new Color[]{Pal.heal.cpy().a(0.4f), Pal.heal, Color.white};
+                }};
+                weapons.addAll(
+                        new Weapon("12"){{
+                            bullet = w;
+                            shootSound = Sounds.laserblast;
+                            chargeSound = Sounds.lasercharge;
+                            soundPitchMin = 1f;
+                            top = false;
+                            mirror = false;
+                            shake = 14f;
+                            shootY = 5f;
+                            x = y = 0;
+                            reload = 350f;
+                            recoil = 0f;
+
+                            cooldownTime = 350f;
+
+                            shootStatusDuration = 60f * 2f;
+                            shootStatus = StatusEffects.unmoving;
+                            shoot.firstShotDelay = Fx.greenLaserCharge.lifetime;
+                            parentizeEffects = true;
+                        }},
+                        new Weapon("22"){{
+                            bullet = w;
+                            shootSound = Sounds.laserblast;
+                            chargeSound = Sounds.lasercharge;
+                            soundPitchMin = 1f;
+                            top = false;
+                            mirror = false;
+                            shake = 14f;
+                            shootY = 5f;
+                            x = y = 0;
+                            reload = 350f;
+                            recoil = 0f;
+
+                            cooldownTime = 350f;
+
+                            shootStatusDuration = 60f * 2f;
+                            shootStatus = StatusEffects.unmoving;
+                            shoot.firstShotDelay = Fx.greenLaserCharge.lifetime;
+                            parentizeEffects = true;
+                        }},
+                        new Weapon("312"){{
+                            bullet = w;
+                            shootSound = Sounds.laserblast;
+                            chargeSound = Sounds.lasercharge;
+                            soundPitchMin = 1f;
+                            top = false;
+                            mirror = false;
+                            shake = 14f;
+                            shootY = 5f;
+                            x = y = 0;
+                            reload = 350f;
+                            recoil = 0f;
+
+                            cooldownTime = 350f;
+
+                            shootStatusDuration = 60f * 2f;
+                            shootStatus = StatusEffects.unmoving;
+                            shoot.firstShotDelay = Fx.greenLaserCharge.lifetime;
+                            parentizeEffects = true;
+                        }},
+                        new Weapon("31"){{
+                            bullet = w;
+                            shootSound = Sounds.laserblast;
+                            chargeSound = Sounds.lasercharge;
+                            soundPitchMin = 1f;
+                            top = false;
+                            mirror = false;
+                            shake = 14f;
+                            shootY = 5f;
+                            x = y = 0;
+                            reload = 350f;
+                            recoil = 0f;
+
+                            cooldownTime = 350f;
+
+                            shootStatusDuration = 60f * 2f;
+                            shootStatus = StatusEffects.unmoving;
+                            shoot.firstShotDelay = Fx.greenLaserCharge.lifetime;
+                            parentizeEffects = true;
+                        }}
+                );
             }
-        };
+            };
     }
 }
