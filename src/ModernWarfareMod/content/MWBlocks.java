@@ -1,6 +1,7 @@
 package ModernWarfareMod.content;
 
 import arc.graphics.Color;
+import mindustry.content.Fx;
 import mindustry.content.Items;
 import mindustry.entities.bullet.BulletType;
 import mindustry.type.Category;
@@ -9,6 +10,9 @@ import mindustry.world.blocks.defense.Wall;
 import mindustry.world.blocks.defense.turrets.ItemTurret;
 import mindustry.world.blocks.production.GenericCrafter;
 import mindustry.world.blocks.production.SolidPump;
+import mindustry.world.draw.DrawDefault;
+import mindustry.world.draw.DrawFlame;
+import mindustry.world.draw.DrawMulti;
 
 import static mindustry.content.Fx.casing2;
 import static mindustry.content.Fx.shootBig;
@@ -22,17 +26,16 @@ import static mindustry.world.meta.Attribute.heat;
 public class MWBlocks {
     public static Wall gangbanqiang;
     public static Wall shiyingqiang;
-    private static Wall bailingqiang;
-    private static Wall juxingganbanqiqang;
     private static Wall juxingshiyingqiang;
     private static Wall daxingganbanqiang;
     private static Wall daxingshiyingqiang;
 
-    private static SolidPump tanshenkuangzhachouquji,tianranqichouquji;
-    
-    private static ItemTurret dangtiao,liudanpao,xingshuang;
+    private static SolidPump tanshenkuangzhachouquji, tianranqichouquji;
 
-    protected static GenericCrafter jiexi;
+    private static ItemTurret dangtiao, liudanpao, xingshuang;
+
+    protected static GenericCrafter jiexi, tfzzc,lghcc;
+
     public static void load() {
         gangbanqiang = new Wall("gang-ban-qiang") {{
 
@@ -53,7 +56,7 @@ public class MWBlocks {
             absorbLasers = true;
         }};
 
-        bailingqiang = new Wall("bai-ling-qiang") {{
+        Wall bailingqiang = new Wall("bai-ling-qiang") {{
 
             health = 500;
             size = 1;
@@ -61,7 +64,7 @@ public class MWBlocks {
             category = defense;
         }};
 
-        juxingganbanqiqang = new Wall("ju-xing-gang-ban-qiang") {{
+        Wall juxingganbanqiqang = new Wall("ju-xing-gang-ban-qiang") {{
 
             health = 13000;
             size = 3;
@@ -94,97 +97,98 @@ public class MWBlocks {
             chanceDeflect = 90;
         }};
 
-        daxingshiyingqiang = new Wall("da-xing-shi-ying-qiang") {{
+        daxingshiyingqiang = new Wall("da-xing-shi-ying-qiang") {
+            {
 
-            health=8000;
-            size=2;
-            requirements(Category.power, with(MWItems.shiying, 24));
-            category=defense;
-            absorbLasers=true;
-            chanceDeflect=20;
-        }
+                health = 8000;
+                size = 2;
+                requirements(Category.power, with(MWItems.shiying, 24));
+                category = defense;
+                absorbLasers = true;
+                chanceDeflect = 20;
+            }
         };
 
-        tanshenkuangzhachouquji = new SolidPump("tan-shen-kuang-zha-chou-qu-ji"){{
+        tanshenkuangzhachouquji = new SolidPump("tan-shen-kuang-zha-chou-qu-ji") {{
             requirements(Category.production, with(MWItems.tie, 80, MWItems.shiying, 80, MWItems.gangban, 70, MWItems.guitie, 60));
             result = slag;
             pumpAmount = 1.1f;
             size = 3;
-            health=1060;
+            health = 1060;
             rotateSpeed = 2.6f;
-            outputsLiquid=true;
-            liquidCapacity=580;
+            outputsLiquid = true;
+            liquidCapacity = 580;
             attribute = heat;
         }};
 
-        tianranqichouquji = new SolidPump("tian-ran-qi-chou-qu-ji"){{
+        tianranqichouquji = new SolidPump("tian-ran-qi-chou-qu-ji") {{
             requirements(Category.production, with(MWItems.tie, 30, MWItems.shiying, 60, MWItems.gangban, 20));
-            result =MWLiquids.tianranqi;
+            result = MWLiquids.tianranqi;
             pumpAmount = 0.25f;
             size = 2;
-            health=760;
-            rotateSpeed=1.5f;
-            outputsLiquid=true;
-            liquidCapacity=90;
+            health = 760;
+            rotateSpeed = 1.5f;
+            outputsLiquid = true;
+            liquidCapacity = 90;
             attribute = heat;
             consumesPower = true;
             hasPower = true;
         }};
 
 
-
-        dangtiao = new ItemTurret("dang-tiao"){{
-            size = 2 ;
-            health = 2000 ;
-            ammoPerShot = 1 ;
-            range = 360 ;
-            inaccuracy = 6 ;
-            maxAmmo = 60 ;
+        dangtiao = new ItemTurret("dang-tiao") {{
+            size = 2;
+            health = 2000;
+            ammoPerShot = 1;
+            range = 360;
+            inaccuracy = 6;
+            maxAmmo = 60;
             targetAir = true;
-            targetGround = true ;
-            coolantMultiplier = 2 ;
+            targetGround = true;
+            coolantMultiplier = 2;
             heatColor = Color.valueOf("#FF0000");
-                ammo(
-                     MWItems.zidanjuhenengyuan, new BulletType(5.2f, 200){{
-                    pierceCap = 1 ;
-                    reloadMultiplier = 3.3F ;
-                    speed =  40 ;
-                    damage =  50 ;
-                    knockback = 1.1F;
-                    lifetime = 30 ;
-                    ammoMultiplier = 2 ;
+            ammo(
+                    MWItems.zidanjuhenengyuan, new BulletType(5.2f, 200) {{
+                        pierceCap = 1;
+                        reloadMultiplier = 3.3F;
+                        speed = 40;
+                        damage = 50;
+                        knockback = 1.1F;
+                        lifetime = 30;
+                        ammoMultiplier = 2;
 
-            }});
+                    }});
             requirements(Category.turret, with(MWItems.tie, 40, MWItems.shiying, 80));
-         category = Category.valueOf("turret");
+            category = Category.valueOf("turret");
         }};
 
 
-        liudanpao = new ItemTurret("liu-dan-pao"){{
-                size=3;
-                health=3500;
-                range=480;
-                inaccuracy=3;
-                ammoPerShot=1;
+        liudanpao = new ItemTurret("liu-dan-pao") {{
+            size = 3;
+            health = 3500;
+            range = 480;
+            inaccuracy = 3;
+            ammoPerShot = 1;
             ammo(
-                        MWItems.paodannengyuan, new BulletType(3, 350){{
-                        pierceCap = 1 ;
-                        reloadMultiplier = 3.3F ;
-                        speed =  3;
-                        damage =  350 ;
-                        knockback = 9.3F;
-                        lifetime = 45 ;
-                        ammoMultiplier = 1 ;
-                        recoil=5;
-                    }
+                    MWItems.paodannengyuan, new BulletType(3, 350) {
+                        {
+                            pierceCap = 1;
+                            reloadMultiplier = 3.3F;
+                            speed = 3;
+                            damage = 350;
+                            knockback = 9.3F;
+                            lifetime = 45;
+                            ammoMultiplier = 1;
+                            recoil = 5;
+                        }
                     }
             );
-                maxAmmo=20;
-                targetAir=false;
-                targetGround=true;
-                coolantMultiplier=2;
-                requirements(Category.turret, with(MWItems.tie, 300, MWItems.gangban, 70));
-                category=turret;
+            maxAmmo = 20;
+            targetAir = false;
+            targetGround = true;
+            coolantMultiplier = 2;
+            requirements(Category.turret, with(MWItems.tie, 300, MWItems.gangban, 70));
+            category = turret;
         }};
 
         xingshuang = new ItemTurret("xing-shuang") {
@@ -241,5 +245,43 @@ public class MWBlocks {
             consumeLiquid(MWLiquids.fusheye, 15 / 60f);
             consumeItem(MWItems.canHai, 1);
         }};
+
+        tfzzc = new GenericCrafter("tf-zz-c") {{
+            itemCapacity = 30;
+            health = 600;
+            size = 2;
+            hasPower = hasItems = hasLiquids = true;
+            craftTime = 65;
+            drawer = new DrawMulti(new DrawDefault(), new DrawFlame(Color.valueOf("ffef99")));
+            outputItem = new ItemStack(MWItems.tanfen, 2);
+            craftEffect = Fx.smeltsmoke;
+            consumePower(2);
+            consumeItem(Items.scrap, 3);
+            requirements(Category.crafting, new ItemStack[]{
+                    new ItemStack(MWItems.tie, 130),
+                    new ItemStack(MWItems.shiying, 120)
+            });
+        }};
+
+        lghcc = new GenericCrafter("lg-hc-c") {
+            {
+                liquidCapacity = 900;
+                itemCapacity = 30;
+                health = 4000;
+                size = 2;
+                hasPower = hasItems = hasLiquids = true;
+                craftTime = 65;
+                consumePower(5);
+                consumeLiquid(MWLiquids.gong, 100 / 60f);
+                consumeLiquid(MWLiquids.xiaosuan, 100 / 130f);
+                drawer = new DrawMulti(new DrawDefault(), new DrawFlame(Color.valueOf("ffef99")));
+                outputItem = new ItemStack(MWItems.leigong, 1);
+                craftEffect = Fx.smeltsmoke;
+                requirements(Category.crafting, new ItemStack[]{
+                        new ItemStack(MWItems.tie, 260),
+                        new ItemStack(MWItems.gangban, 420)
+                });
+            }
+        };
     }
 }
