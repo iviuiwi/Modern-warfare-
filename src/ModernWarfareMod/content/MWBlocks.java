@@ -163,7 +163,7 @@ public class MWBlocks {
             targetAir = true;
             targetGround = true;
             coolantMultiplier = 2;
-            reload = 60f;
+            reload = 30f;
             heatColor = Color.valueOf("#FF0000");
             ammo(
                     MWItems.zidanjuhenengyuan, new BasicBulletType() {
@@ -232,6 +232,7 @@ public class MWBlocks {
                                 height = 30f;
                                 pierceCap = 1;
                                 recoil = 5;
+                                reload = 45f;
                                 splashDamage = 20;
                                 splashDamageRadius = 84;
                                 damage = 39;
@@ -267,7 +268,6 @@ public class MWBlocks {
                         MWItems.bailing, new SapBulletType() {
                             {
                                 status = burning;
-                                size = 6;
                                 width = 0.9f;
                                 pierceCap = 1;
                                 recoil = 9;
@@ -379,11 +379,7 @@ public class MWBlocks {
                 hasPower = true;
             drawer = new DrawMulti(new DrawRegion("-1"), new DrawLiquidTile(MWLiquids.yedan),new DrawRegion("-1-2"));
                     new DrawCrucibleFlame(){
-                        {
-                            midColor = Color.valueOf("F5F5F5");
-                            circleStroke = 1.05f;
-                            circleSpace = 2.65f;
-                        }
+
 
                         @Override
                         public void draw(Building build){
@@ -417,6 +413,11 @@ public class MWBlocks {
 
                                 Draw.reset();
                             }
+                        }
+                        {
+                            midColor = Color.valueOf("F5F5F5");
+                            circleStroke = 1.05f;
+                            circleSpace = 2.65f;
                         }
                     };
                     }};
