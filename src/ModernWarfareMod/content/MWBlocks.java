@@ -302,7 +302,7 @@ public class MWBlocks {
             consumeLiquid(MWLiquids.fusheye, 15 / 60f);
             consumeItem(MWItems.canHai, 1);
 
-            drawer = new DrawMulti(new DrawRegion("-ming"), new DrawLiquidTile(), new DrawRegion("-ming-2"),
+            drawer = new DrawMulti(new DrawRegion("-ming"), new DrawLiquidTile(), new DrawRegion("-ming"),
                     new DrawCrucibleFlame(){
                         {
                             midColor = Color.valueOf("2e2f34");
@@ -328,6 +328,13 @@ public class MWBlocks {
                         new ItemStack(MWItems.tie, 130),
                         new ItemStack(MWItems.shiying, 120)
                 });
+                        new DrawCrucibleFlame(){
+                            {
+                                midColor = Color.valueOf("2e2f34");
+                                circleStroke = 1.05f;
+                                circleSpace = 2.65f;
+                            }
+                        };
 
                         }};
                 lghcc = new GenericCrafter("lg-hc-c") {

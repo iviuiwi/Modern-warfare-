@@ -1,10 +1,12 @@
 package ModernWarfareMod.content;
 
 import arc.graphics.Color;
-import mindustry.ai.UnitCommand;
 import mindustry.content.Fx;
 import mindustry.content.StatusEffects;
-import mindustry.entities.bullet.*;
+import mindustry.entities.bullet.BulletType;
+import mindustry.entities.bullet.LaserBulletType;
+import mindustry.entities.bullet.MissileBulletType;
+import mindustry.entities.bullet.SapBulletType;
 import mindustry.entities.pattern.ShootSpread;
 import mindustry.gen.LegsUnit;
 import mindustry.gen.MechUnit;
@@ -12,18 +14,14 @@ import mindustry.gen.Sounds;
 import mindustry.graphics.Pal;
 import mindustry.type.UnitType;
 import mindustry.type.Weapon;
-import mindustry.type.unit.ErekirUnitType;
+
 
 public class MWUnitTypes {
     public static UnitType nsxpp,xns,feiji1,zns;
 
+
+
     public static void load() {
-        MWUnitTypes instance = new MWUnitTypes();
-        instance.createUnitType();
-    }
-
-    public void createUnitType() {
-
         feiji1 = new UnitType("fei-ji-1"){
             {
                 constructor = MechUnit::create;
@@ -59,7 +57,9 @@ public class MWUnitTypes {
                 speed = 0.6F;
                 hitSize = 8.0F;
                 health = 160.0F;
-            }};
+            }
+
+        };
 
         nsxpp = new UnitType("ns-x-pp"){{
             constructor = LegsUnit::create;
@@ -69,15 +69,15 @@ public class MWUnitTypes {
             rotateSpeed = 3.0F;
             health = 2024520;
             armor = 10.0F;
-            legCount = 4;//腿数
-            legLength = 60.0F;//腿长
-            legGroupSize = 1;//腿群大小
-            legExtension = -4.5F;//腿伸长
-            legBaseOffset = 7.0F;//腿离单位中心距离
-            legLengthScl = 0.925F;//每次移动脚尝试向单位中心远离倍率(不能理解为腿长短缩放)
-            legMoveSpace = 3.047F;//腿速
-            hovering = true;//悬浮
-            groundLayer = 74.0F;//图层
+            legCount = 4;
+            legLength = 60.0F;
+            legGroupSize = 1;
+            legExtension = -4.5F;
+            legBaseOffset = 7.0F;
+            legLengthScl = 0.925F;
+            legMoveSpace = 3.047F;
+            hovering = true;
+            groundLayer = 74.0F;
             faceTarget = false;
 
             BulletType s = new SapBulletType(){{
