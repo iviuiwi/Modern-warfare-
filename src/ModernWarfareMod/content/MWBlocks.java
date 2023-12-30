@@ -377,7 +377,7 @@ public class MWBlocks {
                 consumeItem(MWItems.shiying, 1);
                 consumeLiquid(MWLiquids.yedan, 300 / 60f);
                 hasPower = true;
-            drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawLiquidTile(MWLiquids.yedan),
+            drawer = new DrawMulti(new DrawRegion("-1"), new DrawLiquidTile(MWLiquids.yedan),new DrawRegion("-1-2"));
                     new DrawCrucibleFlame(){
                         {
                             midColor = Color.valueOf("F5F5F5");
@@ -418,6 +418,6 @@ public class MWBlocks {
                                 Draw.reset();
                             }
                         }
-                    });
+                    };
                     }};
         }}
