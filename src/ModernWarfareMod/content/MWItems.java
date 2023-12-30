@@ -6,7 +6,7 @@ import mindustry.type.Item;
 public class MWItems {
     public static Item tie,gangban,zidanjuhenengyuan,paodannengyuan,tanfen,shiying,shiyingsha,lingsuangan,bailing,mei,lei,ying,guitie,leigong,
             chaonengti1xing,chaonengti2xing,chaonengti3xing,
-    canHai,wuliuxiansuo;
+    canHai,wuliuxiansuo,shingyinghej;
     public static void load(){
         tie = new Item("tie", Color.valueOf("light gray")){{
             cost = 1;
@@ -97,6 +97,11 @@ public class MWItems {
             cost = (float) 0.6;
         }};
         wuliuxiansuo = new Item("wu-liu-xian-suo", Color.valueOf("f5f5f5")){{
+            hardness = 1;
+            cost = (float) 0.6;
+        }};
+
+        shingyinghej = new Item("shiying-heji", Color.valueOf("add8e6")){{
             hardness = 1;
             cost = (float) 0.6;
         }};

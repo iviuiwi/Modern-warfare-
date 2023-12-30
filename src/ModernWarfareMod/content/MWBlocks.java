@@ -10,6 +10,7 @@ import arc.math.Mathf;
 import arc.util.Time;
 import mindustry.content.Fx;
 import mindustry.content.Items;
+import mindustry.content.Liquids;
 import mindustry.entities.bullet.BasicBulletType;
 import mindustry.entities.bullet.BulletType;
 import mindustry.entities.bullet.SapBulletType;
@@ -20,6 +21,7 @@ import mindustry.type.ItemStack;
 import mindustry.world.blocks.defense.Wall;
 import mindustry.world.blocks.defense.turrets.ItemTurret;
 import mindustry.world.blocks.defense.turrets.Turret;
+import mindustry.world.blocks.production.AttributeCrafter;
 import mindustry.world.blocks.production.GenericCrafter;
 import mindustry.world.blocks.production.SolidPump;
 import mindustry.world.draw.*;
@@ -47,7 +49,7 @@ public class MWBlocks {
 
     private static Turret dangtiao, liudanpao, xingshuang,shengguang;
 
-    protected static GenericCrafter jiexi, tfzzc,lghcc,ancimembraneConcentrator;
+    protected static GenericCrafter jiexi, tfzzc,lghcc,jingTchanShengy;
 
     public static void load() {
 
@@ -161,7 +163,7 @@ public class MWBlocks {
             targetAir = true;
             targetGround = true;
             coolantMultiplier = 2;
-            reload = 35f;
+            reload = 60f;
             heatColor = Color.valueOf("#FF0000");
             ammo(
                     MWItems.zidanjuhenengyuan, new BasicBulletType() {
@@ -212,7 +214,7 @@ public class MWBlocks {
 
         xingshuang = new ItemTurret("xing-shuang") {
             {
-                size = 3;
+                size = 2;
                 health = 3500;
                 range = 3200;
                 inaccuracy = 8;
@@ -224,10 +226,9 @@ public class MWBlocks {
                 coolantMultiplier = 2;
                 heatColor = Color.red;
                 ammo(
-                        MWItems.bailing, new BasicBulletType() {
+                        MWItems.zidanjuhenengyuan, new BasicBulletType() {
                             {
                                 status = burning;
-                                width = 14f;
                                 height = 30f;
                                 pierceCap = 1;
                                 recoil = 5;
@@ -251,7 +252,7 @@ public class MWBlocks {
 
         shengguang = new ItemTurret("sheng-guang") {
             {
-                size = 2;
+                size = 3;
                 health = 3500;
                 range = 3200;
                 inaccuracy = 8;
@@ -263,21 +264,23 @@ public class MWBlocks {
                 coolantMultiplier = 2;
                 heatColor = Color.red;
                 ammo(
-                        MWItems.paodannengyuan, new SapBulletType() {
+                        MWItems.bailing, new SapBulletType() {
                             {
                                 status = burning;
+                                size = 6;
+                                width = 0.9f;
                                 pierceCap = 1;
-                                recoil = 5;
+                                recoil = 9;
                                 splashDamage = 20;
                                 splashDamageRadius = 84;
                                 damage = 16;
                                 shootEffect = shootBig;
                                 ammoMultiplier = 10;
                                 knockback = 0.3f;
-                                speed = 3;
+                                speed = 6;
                                 reloadMultiplier = 1;
-                                lifetime = 90;
-                                range = 400;
+                                lifetime = 900;
+                                range = 120;
                             }
                         }
                 );
@@ -358,75 +361,63 @@ public class MWBlocks {
                     }
                 };
 
-            ancimembraneConcentrator = new GenericCrafter("ancimembrane-concentrator"){{
+        jingTchanShengy = new GenericCrafter("jingtichansheng-yi"){{
+                requirements(Category.crafting, new ItemStack[]{
+                        new ItemStack(MWItems.gangban, 30),
+                        new ItemStack(Items.lead, 25),
+                        new ItemStack(MWItems.tie, 25)
+                });
+                outputItem = new ItemStack(MWItems.shingyinghej, 2);
+                craftTime = 80f;
                 size = 3;
+                hasItems = true;
+                hasLiquids = true;
+                consumePower(15);
+                consumeItem(MWItems.shiyingsha, 3);
+                consumeItem(MWItems.shiying, 1);
+                consumeLiquid(MWLiquids.yedan, 300 / 60f);
+                hasPower = true;
+            drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawLiquidTile(MWLiquids.yedan),
+                    new DrawCrucibleFlame(){
+                        {
+                            midColor = Color.valueOf("F5F5F5");
+                            circleStroke = 1.05f;
+                            circleSpace = 2.65f;
+                        }
 
-                lightRadius /= 2f;
+                        @Override
+                        public void draw(Building build){
+                            if(build.warmup() > 0f && flameColor.a > 0.001f){
+                                Lines.stroke(circleStroke * build.warmup());
 
-                requirements(Category.crafting, ItemStack.with(MWItems.shiying, 120));
+                                float si = Mathf.absin(flameRadiusScl, flameRadiusMag);
+                                float a = alpha * build.warmup();
 
-                craftTime = 120f;
+                                Draw.blend(Blending.additive);
+                                Draw.color(flameColor, a);
 
-                health = 2200;
-                armor = 12;
-                craftEffect.lifetime *= 1.5f;
-                hasPower = hasItems = hasLiquids = true;
-
-                drawer = new DrawMulti(new DrawRegion("-ming"), new DrawRegion("-ming"),
-                        new DrawCrucibleFlame(){
-                            {
-                                midColor = Color.valueOf("2e2f34");
-                                circleStroke = 1.05f;
-                                circleSpace = 2.65f;
-                            }
-
-                            @Override
-                            public void draw(Building build){
-                                if(build.warmup() > 0f && flameColor.a > 0.001f){
-                                    Lines.stroke(circleStroke * build.warmup());
-
-                                    float si = Mathf.absin(flameRadiusScl, flameRadiusMag);
-                                    float a = alpha * build.warmup();
-
-                                    Draw.blend(Blending.additive);
-                                    Draw.color(flameColor, a);
-
-                                    float base = (Time.time / particleLife);
-                                    rand.setSeed(build.id);
-                                    for(int i = 0; i < particles; i++){
-                                        float fin = (rand.random(1f) + base) % 1f, fout = 1f - fin;
-                                        float angle = rand.random(360f) + (Time.time / rotateScl) % 360f;
-                                        float len = particleRad * particleInterp.apply(fout);
-                                        Draw.alpha(a * (1f - Mathf.curve(fin, 1f - fadeMargin)));
-                                        Fill.square(
-                                                build.x + Angles.trnsx(angle, len),
-                                                build.y + Angles.trnsy(angle, len),
-                                                particleSize * fin * build.warmup(), 45
-                                        );
-                                    }
-
-                                    Draw.blend();
-
-                                    Draw.color(midColor, build.warmup());
-                                    Lines.square(build.x, build.y, (flameRad + circleSpace + si) * build.warmup(), 45);
-
-                                    Draw.reset();
+                                float base = (Time.time / particleLife);
+                                rand.setSeed(build.id);
+                                for(int i = 0; i < particles; i++){
+                                    float fin = (rand.random(1f) + base) % 1f, fout = 1f - fin;
+                                    float angle = rand.random(360f) + (Time.time / rotateScl) % 360f;
+                                    float len = particleRad * particleInterp.apply(fout);
+                                    Draw.alpha(a * (1f - Mathf.curve(fin, 1f - fadeMargin)));
+                                    Fill.square(
+                                            build.x + Angles.trnsx(angle, len),
+                                            build.y + Angles.trnsy(angle, len),
+                                            particleSize * fin * build.warmup(), 45
+                                    );
                                 }
+
+                                Draw.blend();
+
+                                Draw.color(midColor, build.warmup());
+                                Lines.square(build.x, build.y, (flameRad + circleSpace + si) * build.warmup(), 45);
+
+                                Draw.reset();
                             }
-                        },
-                        new DrawDefault(),
-                        new DrawGlowRegion(){{
-                            layer = -1;
-                            glowIntensity = 1.1f;
-                            alpha = 1.1f;
-                        }});
-
-                itemCapacity = 60;
-                liquidCapacity = 60f;
-
-                consumePower(12);
-                consumeItems(with(MWItems.shiying, 2, Items.tungsten, 6));
-//			outputLiquid = new LiquidStack(Liquids.water, 0.5f);
-            }};
-    }
-}
+                        }
+                    });
+                    }};
+        }}

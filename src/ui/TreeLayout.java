@@ -1,6 +1,9 @@
 package ui;
 
 public interface TreeLayout{
+    static void load() {
+    }
+
     void layout(TreeNode root);
 
     class TreeNode<T extends TreeNode>{

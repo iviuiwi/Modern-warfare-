@@ -1,6 +1,7 @@
 import ModernWarfareMod.content.*;
 import arc.util.Log;
 import mindustry.mod.Mod;
+import ui.TreeLayout;
 
 public class ModernWarfareMod extends Mod {
     public ModernWarfareMod() {
@@ -20,6 +21,7 @@ public class ModernWarfareMod extends Mod {
         MWPlanets.load();
         SectorPresets.load();
         MWTechTree.load();
+        TreeLayout.load();
     }
 
 }
