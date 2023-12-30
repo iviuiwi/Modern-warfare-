@@ -32,7 +32,7 @@ public class MWLiquids {
         danqi = new Liquid("dan-qi", Color.valueOf("E5E5E5FF"));
 
 
-        yedan = new Liquid("ye-dan", Color.valueOf("3A32CEFF")) {{
+        yedan = new Liquid("ye-dan", Color.valueOf("F0FFFF")) {{
             effect=burning ;
             flammability= (float) 0.9; 
             temperature= (float) 0.9; 
