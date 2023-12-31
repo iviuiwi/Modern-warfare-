@@ -1,4 +1,4 @@
-package ModernWarfareMod.content;
+package modernwarfare.content;
 
 import arc.struct.Seq;
 import mindustry.content.TechTree;

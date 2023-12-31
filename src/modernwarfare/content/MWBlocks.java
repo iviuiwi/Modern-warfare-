@@ -1,21 +1,18 @@
-package ModernWarfareMod.content;
+package modernwarfare.content;
 
 import arc.graphics.Blending;
 import arc.graphics.Color;
 import arc.graphics.g2d.Draw;
 import arc.graphics.g2d.Fill;
 import arc.graphics.g2d.Lines;
-import arc.input.KeyCode;
 import arc.math.Angles;
 import arc.math.Mathf;
 import arc.util.Time;
-import mindustry.ai.BaseBuilderAI;
 import mindustry.content.Fx;
 import mindustry.content.Items;
 import mindustry.entities.bullet.BasicBulletType;
 import mindustry.entities.bullet.SapBulletType;
 import mindustry.gen.Building;
-import mindustry.graphics.Drawf;
 import mindustry.type.Category;
 import mindustry.type.ItemStack;
 import mindustry.world.blocks.defense.Wall;
@@ -374,7 +371,7 @@ public class MWBlocks {
                 consumeItem(MWItems.shiying, 1);
                 consumeLiquid(MWLiquids.yedan, 300 / 60f);
                 hasPower = true;
-                craftEffect = MWFx.maoyan;
+                craftEffect = Fx.smeltsmoke;
             drawer = new DrawMulti(new DrawDefault(),new DrawLiquidTile(MWLiquids.yedan),new DrawRegion("-1-2"));
 
             new DrawCrucibleFlame(){

@@ -1,4 +1,4 @@
-package ModernWarfareMod.content;
+package modernwarfare.content;
 
 import arc.graphics.Color;
 import mindustry.type.Liquid;
