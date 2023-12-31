@@ -15,7 +15,7 @@ public class MWLiquids {
 
     public static void load() {
 
-        fusheye = new Liquid("fu-she-ye",Color.valueOf("2CA92EFF")) {{
+        fusheye = new Liquid("fu-she-ye",Color.valueOf("7FFFAA")) {{
             flammability = (float) 0.2;
             temperature = (float) 0.9;
             heatCapacity = (float) 0.00001;

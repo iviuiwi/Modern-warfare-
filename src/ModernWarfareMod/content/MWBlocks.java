@@ -5,14 +5,14 @@ import arc.graphics.Color;
 import arc.graphics.g2d.Draw;
 import arc.graphics.g2d.Fill;
 import arc.graphics.g2d.Lines;
+import arc.input.KeyCode;
 import arc.math.Angles;
 import arc.math.Mathf;
 import arc.util.Time;
+import mindustry.ai.BaseBuilderAI;
 import mindustry.content.Fx;
 import mindustry.content.Items;
-import mindustry.content.Liquids;
 import mindustry.entities.bullet.BasicBulletType;
-import mindustry.entities.bullet.BulletType;
 import mindustry.entities.bullet.SapBulletType;
 import mindustry.gen.Building;
 import mindustry.graphics.Drawf;
@@ -21,18 +21,15 @@ import mindustry.type.ItemStack;
 import mindustry.world.blocks.defense.Wall;
 import mindustry.world.blocks.defense.turrets.ItemTurret;
 import mindustry.world.blocks.defense.turrets.Turret;
-import mindustry.world.blocks.production.AttributeCrafter;
 import mindustry.world.blocks.production.GenericCrafter;
 import mindustry.world.blocks.production.SolidPump;
 import mindustry.world.draw.*;
 
-import static arc.graphics.Color.white;
-import static arc.graphics.Color.yellow;
+import static arc.graphics.g2d.Draw.color;
 import static mindustry.content.Fx.casing2;
 import static mindustry.content.Fx.shootBig;
 import static mindustry.content.Liquids.slag;
 import static mindustry.content.StatusEffects.burning;
-import static mindustry.gen.Sounds.build;
 import static mindustry.type.Category.defense;
 import static mindustry.type.Category.turret;
 import static mindustry.type.ItemStack.with;
@@ -163,7 +160,7 @@ public class MWBlocks {
             targetAir = true;
             targetGround = true;
             coolantMultiplier = 2;
-            reload = 30f;
+            reload = 5f;
             heatColor = Color.valueOf("#FF0000");
             ammo(
                     MWItems.zidanjuhenengyuan, new BasicBulletType() {
@@ -197,7 +194,7 @@ public class MWBlocks {
                         pierceCap = 1;
                         reloadMultiplier = 3.3F;
                         speed = 1.9f;
-                        damage = 50;
+                        damage = 120;
                         knockback = 1.1F;
                         lifetime = 110;
                         ammoMultiplier = 2;
@@ -232,10 +229,10 @@ public class MWBlocks {
                                 height = 30f;
                                 pierceCap = 1;
                                 recoil = 5;
-                                reload = 45f;
+                                reload = 30f;
                                 splashDamage = 20;
                                 splashDamageRadius = 84;
-                                damage = 39;
+                                damage = 50;
                                 shootEffect = shootBig;
                                 ammoMultiplier = 10;
                                 knockback = 0.3f;
@@ -259,7 +256,7 @@ public class MWBlocks {
                 inaccuracy = 8;
                 ammoPerShot = 1;
                 ammoUseEffect = casing2;
-                maxAmmo = 120;
+                maxAmmo = 20;
                 targetAir = true;
                 targetGround = true;
                 coolantMultiplier = 2;
@@ -322,7 +319,7 @@ public class MWBlocks {
                 size = 2;
                 hasPower = hasItems = hasLiquids = true;
                 craftTime = 65;
-                drawer = new DrawMulti(new DrawDefault(), new DrawFlame(Color.valueOf("ffef99")));
+                drawer = new DrawMulti(new DrawDefault());
                 outputItem = new ItemStack(MWItems.tanfen, 2);
                 craftEffect = Fx.smeltsmoke;
                 consumePower(2);
@@ -351,7 +348,7 @@ public class MWBlocks {
                         consumePower(5);
                         consumeLiquid(MWLiquids.gong, 100 / 60f);
                         consumeLiquid(MWLiquids.xiaosuan, 100 / 130f);
-                        drawer = new DrawMulti(new DrawDefault(), new DrawFlame(Color.valueOf("ffef99")));
+                        drawer = new DrawMulti(new DrawDefault());
                         outputItem = new ItemStack(MWItems.leigong, 1);
                         craftEffect = Fx.smeltsmoke;
                         requirements(Category.crafting, new ItemStack[]{
@@ -377,48 +374,56 @@ public class MWBlocks {
                 consumeItem(MWItems.shiying, 1);
                 consumeLiquid(MWLiquids.yedan, 300 / 60f);
                 hasPower = true;
-            drawer = new DrawMulti(new DrawRegion("-1"), new DrawLiquidTile(MWLiquids.yedan),new DrawRegion("-1-2"));
-                    new DrawCrucibleFlame(){
+                craftEffect = MWFx.maoyan;
+            drawer = new DrawMulti(new DrawDefault(),new DrawLiquidTile(MWLiquids.yedan),new DrawRegion("-1-2"));
 
+            new DrawCrucibleFlame(){
+                {
+                    midColor = Color.valueOf("2e2f34");
+                    circleStroke = 1.05f;
+                    circleSpace = 2.65f;
+                }
 
-                        @Override
-                        public void draw(Building build){
-                            if(build.warmup() > 0f && flameColor.a > 0.001f){
-                                Lines.stroke(circleStroke * build.warmup());
+                @Override
+                public void draw(Building build){
+                    if(build.warmup() > 0f && flameColor.a > 0.001f){
+                        Lines.stroke(circleStroke * build.warmup());
 
-                                float si = Mathf.absin(flameRadiusScl, flameRadiusMag);
-                                float a = alpha * build.warmup();
+                        float si = Mathf.absin(flameRadiusScl, flameRadiusMag);
+                        float a = alpha * build.warmup();
 
-                                Draw.blend(Blending.additive);
-                                Draw.color(flameColor, a);
+                        Draw.blend(Blending.additive);
+                        color(flameColor, a);
 
-                                float base = (Time.time / particleLife);
-                                rand.setSeed(build.id);
-                                for(int i = 0; i < particles; i++){
-                                    float fin = (rand.random(1f) + base) % 1f, fout = 1f - fin;
-                                    float angle = rand.random(360f) + (Time.time / rotateScl) % 360f;
-                                    float len = particleRad * particleInterp.apply(fout);
-                                    Draw.alpha(a * (1f - Mathf.curve(fin, 1f - fadeMargin)));
-                                    Fill.square(
-                                            build.x + Angles.trnsx(angle, len),
-                                            build.y + Angles.trnsy(angle, len),
-                                            particleSize * fin * build.warmup(), 45
-                                    );
-                                }
-
-                                Draw.blend();
-
-                                Draw.color(midColor, build.warmup());
-                                Lines.square(build.x, build.y, (flameRad + circleSpace + si) * build.warmup(), 45);
-
-                                Draw.reset();
-                            }
+                        float base = (Time.time / particleLife);
+                        rand.setSeed(build.id);
+                        for(int i = 0; i < particles; i++){
+                            float fin = (rand.random(1f) + base) % 1f, fout = 1f - fin;
+                            float angle = rand.random(360f) + (Time.time / rotateScl) % 360f;
+                            float len = particleRad * particleInterp.apply(fout);
+                            Draw.alpha(a * (1f - Mathf.curve(fin, 1f - fadeMargin)));
+                            Fill.square(
+                                    build.x + Angles.trnsx(angle, len),
+                                    build.y + Angles.trnsy(angle, len),
+                                    particleSize * fin * build.warmup(), 45
+                            );
                         }
-                        {
-                            midColor = Color.valueOf("F5F5F5");
-                            circleStroke = 1.05f;
-                            circleSpace = 2.65f;
-                        }
-                    };
+
+                        Draw.blend();
+
+                        color(midColor, build.warmup());
+                        Lines.square(build.x, build.y, (flameRad + circleSpace + si) * build.warmup(), 45);
+
+                        Draw.reset();
+                    }
+                }
+            };
+                    new DrawGlowRegion(){{
+                        layer = -1;
+                        glowIntensity = 1.1f;
+                        alpha = 1.1f;
                     }};
-        }}
+            }
+        };
+    }
+}
