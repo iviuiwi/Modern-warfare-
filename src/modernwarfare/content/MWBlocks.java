@@ -15,6 +15,8 @@ import mindustry.entities.bullet.SapBulletType;
 import mindustry.gen.Building;
 import mindustry.type.Category;
 import mindustry.type.ItemStack;
+import mindustry.world.Block;
+import mindustry.world.blocks.defense.OverdriveProjector;
 import mindustry.world.blocks.defense.Wall;
 import mindustry.world.blocks.defense.turrets.ItemTurret;
 import mindustry.world.blocks.defense.turrets.Turret;
@@ -44,6 +46,8 @@ public class MWBlocks {
     private static Turret dangtiao, liudanpao, xingshuang,shengguang;
 
     protected static GenericCrafter jiexi, tfzzc,lghcc,jingTchanShengy;
+
+    protected static OverdriveProjector cchangcshengy;;
 
     public static void load() {
 
@@ -347,7 +351,7 @@ public class MWBlocks {
                         consumeLiquid(MWLiquids.xiaosuan, 100 / 130f);
                         drawer = new DrawMulti(new DrawDefault());
                         outputItem = new ItemStack(MWItems.leigong, 1);
-                        craftEffect = Fx.smeltsmoke;
+                        craftEffect = MWFx.maoyan;
                         requirements(Category.crafting, new ItemStack[]{
                                 new ItemStack(MWItems.tie, 260),
                                 new ItemStack(MWItems.gangban, 420)
@@ -371,7 +375,7 @@ public class MWBlocks {
                 consumeItem(MWItems.shiying, 1);
                 consumeLiquid(MWLiquids.yedan, 300 / 60f);
                 hasPower = true;
-                craftEffect = Fx.smeltsmoke;
+                craftEffect = MWFx.maoyan;
             drawer = new DrawMulti(new DrawDefault(),new DrawLiquidTile(MWLiquids.yedan),new DrawRegion("-1-2"));
 
             new DrawCrucibleFlame(){
@@ -422,5 +426,15 @@ public class MWBlocks {
                     }};
             }
         };
+        cchangcshengy = new OverdriveProjector("cchang-csheng-y"){{
+            requirements(Category.effect, with(Items.lead, 200, Items.titanium, 130, Items.silicon, 130, Items.plastanium, 80, Items.surgeAlloy, 120));
+            consumePower(15f);
+            size = 3;
+            range = 200f;
+            speedBoost = 4f;
+            useTime = 1200;
+            hasBoost = false;
+            consumeItems(with(MWItems.shingyinghej, 1));
+        }};
     }
 }
