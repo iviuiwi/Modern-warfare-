@@ -6,16 +6,17 @@ import arc.graphics.g2d.Draw;
 import arc.graphics.g2d.Fill;
 import arc.graphics.g2d.Lines;
 import arc.math.Angles;
+import arc.math.Interp;
 import arc.math.Mathf;
 import arc.util.Time;
 import mindustry.content.Fx;
 import mindustry.content.Items;
+import mindustry.content.Liquids;
 import mindustry.entities.bullet.BasicBulletType;
 import mindustry.entities.bullet.SapBulletType;
 import mindustry.gen.Building;
 import mindustry.type.Category;
 import mindustry.type.ItemStack;
-import mindustry.world.Block;
 import mindustry.world.blocks.defense.OverdriveProjector;
 import mindustry.world.blocks.defense.Wall;
 import mindustry.world.blocks.defense.turrets.ItemTurret;
@@ -23,6 +24,7 @@ import mindustry.world.blocks.defense.turrets.Turret;
 import mindustry.world.blocks.production.GenericCrafter;
 import mindustry.world.blocks.production.SolidPump;
 import mindustry.world.draw.*;
+import modernwarfare.world.blocks.production.Quarry;
 
 import static arc.graphics.g2d.Draw.color;
 import static mindustry.content.Fx.casing2;
@@ -43,6 +45,7 @@ public class MWBlocks {
 
     private static SolidPump tanshenkuangzhachouquji, tianranqichouquji;
 
+    private static Quarry shiyinjinghc;
     private static Turret dangtiao, liudanpao, xingshuang,shengguang;
 
     protected static GenericCrafter jiexi, tfzzc,lghcc,jingTchanShengy;
@@ -436,5 +439,27 @@ public class MWBlocks {
             hasBoost = false;
             consumeItems(with(MWItems.shingyinghej, 1));
         }};
+        shiyinjinghc = new Quarry("shiying-jing-hc"){{
+            size = 3;
+            regionRotated1 = 1;
+            itemCapacity = 100;
+            acceptsItems = true;
+
+            areaSize = 11;
+            liquidBoostIntensity = 1.5f;
+            mineTime = 400f;
+
+            deploySpeed = 0.015f;
+            deployInterp = new Interp.PowOut(4);
+            deployInterpInverse = new Interp.PowIn(4);
+            drillMoveSpeed = 0.07f;
+            consumePower(20);
+            consumeLiquid(Liquids.hydrogen, 5f / 60f);
+            consumeLiquid(Liquids.nitrogen, 6f / 60f).boost();
+            requirements(Category.crafting, new ItemStack[]{
+                    new ItemStack(MWItems.gangban, 30),
+                    new ItemStack(Items.lead, 25),
+                    new ItemStack(MWItems.tie, 25)
+            });        }};
     }
 }
