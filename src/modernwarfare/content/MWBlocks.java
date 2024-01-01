@@ -23,8 +23,10 @@ import mindustry.world.blocks.defense.turrets.ItemTurret;
 import mindustry.world.blocks.defense.turrets.Turret;
 import mindustry.world.blocks.production.GenericCrafter;
 import mindustry.world.blocks.production.SolidPump;
+import mindustry.world.blocks.storage.CoreBlock;
 import mindustry.world.draw.*;
-import modernwarfare.world.blocks.production.Quarry;
+import mindustry.world.meta.BuildVisibility;
+import modernwarfare.world.Quarry;
 
 import static arc.graphics.g2d.Draw.color;
 import static mindustry.content.Fx.casing2;
@@ -51,6 +53,7 @@ public class MWBlocks {
     protected static GenericCrafter jiexi, tfzzc,lghcc,jingTchanShengy;
 
     protected static OverdriveProjector cchangcshengy;;
+    private static CoreBlock spaceStationCore;
 
     public static void load() {
 
@@ -306,14 +309,14 @@ public class MWBlocks {
             consumeLiquid(MWLiquids.fusheye, 15 / 60f);
             consumeItem(MWItems.canHai, 1);
 
-            drawer = new DrawMulti(new DrawRegion("-ming"), new DrawLiquidTile(), new DrawRegion("-ming"),
-                    new DrawCrucibleFlame(){
+            drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawLiquidRegion(Liquids.arkycite), new DrawDefault(), new DrawRegion("-top"));
+            new DrawCrucibleFlame(){
                         {
                             midColor = Color.valueOf("2e2f34");
                             circleStroke = 1.05f;
                             circleSpace = 2.65f;
                         }
-        });
+        };
         }};
 
         tfzzc = new GenericCrafter("tf-zz-c") {
@@ -435,7 +438,7 @@ public class MWBlocks {
             size = 3;
             range = 200f;
             speedBoost = 4f;
-            useTime = 1200;
+            useTime = 9000;
             hasBoost = false;
             consumeItems(with(MWItems.shingyinghej, 1));
         }};
@@ -456,10 +459,19 @@ public class MWBlocks {
             consumePower(20);
             consumeLiquid(Liquids.hydrogen, 5f / 60f);
             consumeLiquid(Liquids.nitrogen, 6f / 60f).boost();
-            requirements(Category.crafting, new ItemStack[]{
-                    new ItemStack(MWItems.gangban, 30),
-                    new ItemStack(Items.lead, 25),
-                    new ItemStack(MWItems.tie, 25)
-            });        }};
+            requirements(Category.production, with(MWItems.shingyinghej, 1));
+        }};
+        spaceStationCore = new CoreBlock("space-station-core"){{
+            requirements(Category.effect, BuildVisibility.editorOnly, with(MWItems.tie, 1300));
+            alwaysUnlocked = true;
+
+            isFirstTier = true;
+            unitType = MWUnitTypes.xns;
+            health = 1300;
+            itemCapacity = 4000;
+            size = 3;
+
+            unitCapModifier = 16;
+        }};
     }
 }
