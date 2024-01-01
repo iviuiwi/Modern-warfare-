@@ -14,6 +14,7 @@ import mindustry.content.Items;
 import mindustry.content.Liquids;
 import mindustry.entities.bullet.BasicBulletType;
 import mindustry.entities.bullet.SapBulletType;
+import mindustry.entities.part.RegionPart;
 import mindustry.gen.Building;
 import mindustry.type.Category;
 import mindustry.type.ItemStack;
@@ -29,6 +30,7 @@ import mindustry.world.meta.BuildVisibility;
 import modernwarfare.world.Quarry;
 
 import static arc.graphics.g2d.Draw.color;
+import static java.awt.Color.white;
 import static mindustry.content.Fx.casing2;
 import static mindustry.content.Fx.shootBig;
 import static mindustry.content.Liquids.slag;
@@ -268,6 +270,14 @@ public class MWBlocks {
                 targetGround = true;
                 coolantMultiplier = 2;
                 heatColor = Color.red;
+                drawer = new DrawTurret("reinforced-"){{
+                            new RegionPart("-mid"){{
+                                progress = PartProgress.recoil;
+                                mirror = false;
+                                under = true;
+                                moveY = -0.8f;
+                            }};
+                }};
                 ammo(
                         MWItems.bailing, new SapBulletType() {
                             {
@@ -281,7 +291,7 @@ public class MWBlocks {
                                 shootEffect = shootBig;
                                 ammoMultiplier = 10;
                                 knockback = 0.3f;
-                                speed = 6;
+                                speed = 9;
                                 reloadMultiplier = 1;
                                 lifetime = 900;
                                 range = 120;
@@ -328,7 +338,7 @@ public class MWBlocks {
                 craftTime = 65;
                 drawer = new DrawMulti(new DrawDefault());
                 outputItem = new ItemStack(MWItems.tanfen, 2);
-                craftEffect = Fx.smeltsmoke;
+                craftEffect = MWFx.lle(Color.white,1.1f);
                 consumePower(2);
                 consumeItem(Items.scrap, 3);
                 requirements(Category.crafting, new ItemStack[]{
@@ -352,12 +362,17 @@ public class MWBlocks {
                         size = 2;
                         hasPower = hasItems = hasLiquids = true;
                         craftTime = 65;
+
                         consumePower(5);
                         consumeLiquid(MWLiquids.gong, 100 / 60f);
                         consumeLiquid(MWLiquids.xiaosuan, 100 / 130f);
+
                         drawer = new DrawMulti(new DrawDefault());
                         outputItem = new ItemStack(MWItems.leigong, 1);
+
                         craftEffect = MWFx.maoyan;
+                        craftEffect = MWFx.xuan(4f,360);
+
                         requirements(Category.crafting, new ItemStack[]{
                                 new ItemStack(MWItems.tie, 260),
                                 new ItemStack(MWItems.gangban, 420)
@@ -441,6 +456,7 @@ public class MWBlocks {
             useTime = 9000;
             hasBoost = false;
             consumeItems(with(MWItems.shingyinghej, 1));
+
         }};
         shiyinjinghc = new Quarry("shiying-jing-hc"){{
             size = 3;
