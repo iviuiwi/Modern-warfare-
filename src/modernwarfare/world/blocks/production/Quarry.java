@@ -16,43 +16,43 @@ import modernwarfare.content.MWFx;
 import static mindustry.Vars.tilesize;
 
 public class Quarry extends Block {
-    public TextureRegion sideRegion1;
-    public TextureRegion sideRegion2;
-    public TextureRegion locator;
-    public TextureRegion armRegion;
-    public TextureRegion drill;
-    public float mineTime;
-    public float liquidBoostIntensity;
-    public int areaSize;
-    public Color areaColor = Pal.accent;
-    public Color boostColor = Color.sky.cpy().mul(0.87f);
-    public Effect drillEffect = new MultiEffect(MWFx.quarryDrillEffect, Fx.mine);
+        public TextureRegion sideRegion1;
+        public TextureRegion sideRegion2;
+        public TextureRegion locator;
+        public TextureRegion armRegion;
+        public TextureRegion drill;
+        public float mineTime;
+        public float liquidBoostIntensity;
+        public int areaSize;
+        public Color areaColor = Pal.accent;
+        public Color boostColor = Color.sky.cpy().mul(0.87f);
+        public Effect drillEffect = new MultiEffect(MWFx.quarryDrillEffect, Fx.mine);
 
-    public Interp deployInterp;
-    public Interp deployInterpInverse;
+        public Interp deployInterp;
+        public Interp deployInterpInverse;
 
-    public float drillMoveSpeed;
-    public float deploySpeed;
-    public float drillMargin = 20f;
-    public float elevation = 8f;
+        public float drillMoveSpeed;
+        public float deploySpeed;
+        public float drillMargin = 20f;
+        public float elevation = 8f;
 
-    protected float fulls = areaSize * tilesize / 2f;
+        protected float fulls = areaSize * tilesize / 2f;
 
     public Quarry(String name) {
-        super(name);
-        update = true;
-        solid = true;
-        rotate = true;
-        group = BlockGroup.drills;
-        hasItems = true;
-        hasLiquids = true;
-        acceptsItems = true;
-        liquidCapacity = 5f;
-        hasPower = true;
-        envEnabled |= Env.space;
-        updateInUnits = false;
-        quickRotate = false;
-        ambientSoundVolume = 0.05f;
-        ambientSound = Sounds.minebeam;
-    }
+            super(name);
+            update = true;
+            solid = true;
+            rotate = true;
+            group = BlockGroup.drills;
+            hasItems = true;
+            hasLiquids = true;
+            acceptsItems = true;
+            liquidCapacity = 5f;
+            hasPower = true;
+            envEnabled |= Env.space;
+            updateInUnits = false;
+            quickRotate = false;
+            ambientSoundVolume = 0.05f;
+            ambientSound = Sounds.minebeam;
+        }
 }
