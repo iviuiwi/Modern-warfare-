@@ -385,7 +385,6 @@ public class MWBlocks {
                         new ItemStack(MWItems.gangban, 30),
                         new ItemStack(MWItems.shiying, 60)
                 });
-                //parent":"现代战争-氨气氧化厂",
     }
         };
         anqiyang = new GenericCrafter("anqi-yanghua") {
@@ -425,7 +424,6 @@ public class MWBlocks {
                         new ItemStack(MWItems.gangban, 320),
                         new ItemStack(MWItems.shiying, 240)
                 });
-                    //research=现代战争-氧气收集器
             }
         };
 
@@ -445,7 +443,6 @@ public class MWBlocks {
                         new ItemStack(MWItems.gangban, 120),
                         new ItemStack(MWItems.tie, 340)
                 });
-                //现代战争-钢板炼制厂;
             }
             };
 
@@ -463,7 +460,6 @@ public class MWBlocks {
                 requirements(Category.crafting, new ItemStack[]{
                         new ItemStack(MWItems.tie, 25)
                 });
-                //现代战争-铁
             }
         };
         jingTchanShengy = new GenericCrafter("jingtichansheng-yi"){{

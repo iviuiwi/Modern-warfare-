@@ -1,19 +1,30 @@
 package modernwarfare.content;
 
 import mindustry.content.Fx;
-import mindustry.entities.bullet.BulletType;
-import mindustry.entities.bullet.MissileBulletType;
-import mindustry.entities.bullet.SapBulletType;
+import mindustry.entities.abilities.EnergyFieldAbility;
+import mindustry.entities.abilities.ForceFieldAbility;
+import mindustry.entities.abilities.SuppressionFieldAbility;
+import mindustry.entities.bullet.*;
+import mindustry.entities.part.HaloPart;
+import mindustry.entities.part.ShapePart;
 import mindustry.entities.pattern.ShootSpread;
 import mindustry.gen.LegsUnit;
 import mindustry.gen.MechUnit;
 import mindustry.gen.Sounds;
+import mindustry.gen.UnitEntity;
 import mindustry.type.UnitType;
 import mindustry.type.Weapon;
 
+import static mindustry.content.Fx.none;
+import static mindustry.content.Fx.smokeCloud;
+import static mindustry.content.StatusEffects.electrified;
+import static mindustry.gen.Sounds.*;
+import static modernwarfare.content.MWStatusEffects.cuowei1;
+import static modernwarfare.content.MWStatusEffects.cuowei2;
+
 
 public class MWUnitTypes {
-    public static UnitType nsxpp, xns, feiji1, caikuangji;
+    public static UnitType nsxpp, xns, feiji1, caikuangji,zhongzixing;
 
 
     public static void load() {
@@ -198,8 +209,9 @@ public class MWUnitTypes {
         }};
         caikuangji = new UnitType("caikuang-ji") {
             {
+                constructor = UnitEntity::create;
                 health = 100;
-                speed = 1;
+                speed = 2;
                 range = 20;
                 itemCapacity = 150;
                 mineSpeed = 20;
@@ -209,5 +221,205 @@ public class MWUnitTypes {
                 drag = 0.2f;
             }
         };
-    }
-}
+
+
+        zhongzixing = new UnitType("zhongzixing") {
+            {
+                constructor = UnitEntity::create;
+                speed=4f;
+                drag=0.6f;
+                accel=0.1f;
+                rotateSpeed=14;
+                ammoCapacity=0;
+                hitSize=10;
+                flying=true;
+                faceTarget=true;
+                range=40;
+                health=81000;
+                armor=62000;
+                engineOffset=2;
+                engineSize=0.1f;
+                mineSpeed=10;
+                mineTier=6;
+                buildSpeed=2;
+                abilities.add(new EnergyFieldAbility(20 * 8, 90, 2100){
+                    {
+
+                        hitBuildings = true;
+                        damage = 500;
+                        reload = 15;
+                        range = 20;
+                        status = cuowei2;
+                        statusDuration = 60;
+                        maxTargets = 60;
+                        effectRadius = 0;
+                        sectors = 0;
+                        rotateSpeed = 0;
+                        sectorRad = 0;
+                        healPercent = 10;
+                        damageEffect = none;
+                        hitEffect = none;
+                        healEffect = none;
+                    }});
+            itemCapacity=1000000;
+                parts.add(
+                        new ShapePart(){{
+                    layer=110 ;//所在图层高度
+                    stroke=10 ;//开始时的粗细
+                    strokeTo=10 ;//结束时的粗细
+                    circle=true ;//是否圆圈？
+                    hollow=false ;//是否空心
+                    radius=10 ;//开始时的大小
+                    radiusTo=10 ;//结束时的大小
+                    x=0;
+                    y=0;
+                    }},
+                        new HaloPart(){{
+                    rotateSpeed=0;
+                    sides=3;
+                    shapes=2;
+                    layer=110;
+                    tri=true;
+                    radius=8;
+                    radiusTo=8;
+                    triLength=180;
+                    triLengthTo=180;
+                    haloRadius=10;
+                    haloRadiusTo=10;
+                    haloRotation=0;
+                    haloRotateSpeed=-0.9f;
+                    }},
+                        new HaloPart(){
+                            {
+                                rotateSpeed = 0;
+                                sides = 2;
+                                shapes = 6;//围绕旋转的图形数量
+                                layer = 110;//所在图层高度
+                                tri = false;//是否三角形
+                                radius = 8;//开始时的大小
+                                radiusTo = 8;//结束时的大小
+                                triLength = 180;//三角形开始时的尖锐程度
+                                triLengthTo = 180;//三角形结束时的尖锐程度
+                                haloRadius = 50;//开始时的围绕半径
+                                haloRadiusTo = 50;//结束时的围绕半径
+                                haloRotation = 0;//开始时的角度
+                                haloRotateSpeed = 0.9f;//旋转速度
+                            }});
+                weapons.addAll(
+                        new Weapon("qiangpenfa") {{
+                    x=0;
+                    y=0;
+                    mirror=false;
+                    reload=60 ;/*重新装弹速度 */
+                    rotate=true;/*是否旋转 */
+                    rotateSpeed=1 ;/*旋转速度 */
+                    inaccuracy=360 ;//误差角度
+                    shootSound=laserblast;
+                    chargeSound=lasercharge;
+                    BulletType b = new LaserBulletType() {{
+                        damage=1124;
+                        width=10;
+                        length=100;
+                        statusDuration=240;
+                        status=electrified;
+                        hitShake=3 ;  // 命中震动程度为2
+                        despawnEffect=smokeCloud;
+                        smokeEffect=none;
+                            }};
+                    bullet=b;
+                            abilities.add(
+                                    new SuppressionFieldAbility() {{
+                                        particles=20 ;  // 粒子数量为6
+                                        lifetime=30 ;  // 生命周期为5
+                                    }}
+                            );
+                    }},
+                        new Weapon("ruopenfa"){{
+                        x=0;
+                        y=0;
+                    mirror=false;
+                    reload=120;
+                    rotate=true;
+                    rotateSpeed=1;
+                    inaccuracy=360;
+                shootSound=laserblast;
+                    chargeSound=lasercharge;
+                            BulletType c = new LaserBulletType() {{
+                        damage=624;
+                        width=10;
+                        length=50;
+                        statusDuration=120;
+                        status=electrified;
+                        lifetime=160;
+                        hitShake=1;
+                        despawnEffect=smokeCloud;
+                        smokeEffect=none;
+                                abilities.add(new ForceFieldAbility(60f, 0.3f, 400f, 60f * 6));
+                        }};
+                            bullet=c;
+                    }
+                    },
+                        new Weapon("kaiyuan") {{
+	                x=0;y=0;
+                    mirror=false;
+                    reload=360;
+                    rotate=true;
+                    rotateSpeed=1;
+                    inaccuracy=0;
+                    continuous=true;
+                    shootSound=laserblast;
+                    chargeSound=lasercharge;
+                            BulletType d = new LaserBulletType() {{
+                                damage=624;
+                                width=10;
+                                length=50;
+                                statusDuration=120;
+                                status=electrified;
+                                lifetime=160;
+                                hitShake=1;
+                                despawnEffect=smokeCloud;
+                                smokeEffect=none;
+                                abilities.add(new ForceFieldAbility(60f, 0.3f, 400f, 60f * 6));
+                    }};
+                            bullet=d;
+                    }},
+                    new Weapon("changshi-penfa") {{
+                    mirror=false;
+                    top=false ;
+                    shake=1 ;
+                    shootY=0   ;
+                    x=0;
+                    y=0;
+                    reload=170 ;
+                    recoil=0 ;
+                    parentizeEffects=true ;
+                    chargeSound=lasercharge2;
+                    shootSound=beam;
+                    continuous=true;
+                    cooldownTime=300;
+                        BulletType e = new ContinuousLaserBulletType() {{;
+                        smokeEffect=none;
+                        status=cuowei1;
+                        statusDuration=300;
+                        collidesTeam=true;
+                        healPercent=1.3f;
+                        ammoMultiplier=1;
+                        damage=265 ;
+                        abilities.add(new ForceFieldAbility(60f, 0.3f, 400f, 60f * 6));
+		            }};
+                        bullet=e;
+                        }},
+                new Weapon("zaixing-2") {{
+                    x=0;
+                    y=0;
+                    shootY=0;
+                    mirror=false ;
+                    BulletType f = new ContinuousLaserBulletType() {
+                        {
+                            maxRange = 260;
+                        }};
+                    bullet=f;
+                }
+            });}
+    };}}
+
