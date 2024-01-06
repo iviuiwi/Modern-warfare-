@@ -1,4 +1,4 @@
-package modernwarfare.ui.graphic;
+package modernwarfare.util.graphic;
 
 import arc.Core;
 import arc.func.Cons;

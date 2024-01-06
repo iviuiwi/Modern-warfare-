@@ -1,6 +1,7 @@
 package modernwarfare.content;
 
 import arc.struct.Seq;
+import mindustry.content.Blocks;
 import mindustry.content.TechTree;
 import mindustry.ctype.UnlockableContent;
 import mindustry.game.Objectives.Objective;
@@ -17,7 +18,8 @@ public class MWTechTree {
         addToNode(duo, () -> node(MWBlocks.jiexi));
         addToNode(groundFactory, () -> node(MWUnitTypes.xns));
         addToNode(MWUnitTypes.xns, () -> node(MWUnitTypes.nsxpp));
-
+        addToNode(Blocks.copperWall, () -> node(MWBlocks.gangbanqiang));
+        addToNode(MWItems.tie, () -> node(MWBlocks.gangbanlianzhi,() -> node(MWBlocks.yangqishouji,() -> node(MWBlocks.anqiyang,() -> node(MWBlocks.meitanzhuan)))));
     }
 
     public static void addToNode(UnlockableContent p, Runnable c) {

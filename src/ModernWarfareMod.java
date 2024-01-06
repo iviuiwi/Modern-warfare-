@@ -1,6 +1,8 @@
 import arc.util.Log;
 import mindustry.mod.Mod;
 import modernwarfare.content.*;
+import modernwarfare.environment.MWflot;
+
 
 public class ModernWarfareMod extends Mod {
     public ModernWarfareMod() {
@@ -14,6 +16,7 @@ public class ModernWarfareMod extends Mod {
         Log.info("Loading some ModernWarfareMod content.");
         MWItems.load();
         MWLiquids.load();
+        MWflot.load();
         MWBlocks.load();
         MWUnitTypes.load();
         MWStatusEffects.load();
@@ -21,5 +24,4 @@ public class ModernWarfareMod extends Mod {
         SectorPresets.load();
         MWTechTree.load();
     }
-
 }

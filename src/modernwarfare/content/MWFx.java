@@ -7,11 +7,10 @@ import arc.graphics.g2d.Lines;
 import arc.math.Angles;
 import arc.math.Interp;
 import arc.math.Mathf;
-import mindustry.Vars;
 import mindustry.entities.Effect;
 import mindustry.graphics.Drawf;
 import mindustry.graphics.Layer;
-import modernwarfare.ui.graphic.DrawFunc;
+import modernwarfare.util.graphic.DrawFunc;
 
 import static arc.Core.atlas;
 import static arc.graphics.g2d.Draw.*;
