@@ -4,7 +4,7 @@ import arc.graphics.Color;
 import mindustry.type.Item;
 
 public class MWItems {
-    public static Item tie,gangban,zidanjuhenengyuan,paodannengyuan,tanfen,shiying,shiyingsha,lingsuangan,bailing,mei,lei,ying,guitie,leigong,
+    public static Item tie,gangban,zidanjuhenengyuan,paodannengyuan,tanfen,shiying,shiyingsha,lingsuangai,bailin,mei,lei,ying,guitie,leigong,
             chaonengti1xing,chaonengti2xing,chaonengti3xing,
     canHai,wuliuxiansuo,shingyinghej;
     public static void load(){
@@ -36,11 +36,11 @@ public class MWItems {
             cost = 1;
         }};
 
-         lingsuangan = new Item("ling-suan-gai", Color.valueOf("00FFC8FF")){{
+         lingsuangai = new Item("ling-suan-gai", Color.valueOf("00FFC8FF")){{
             cost = 1;
         }};
 
-        bailing = new Item("bai-ling", Color.valueOf("40B3CDFF")){{
+        bailin = new Item("bai-ling", Color.valueOf("40B3CDFF")){{
             cost = 1;
             flammability = 200;
         }};

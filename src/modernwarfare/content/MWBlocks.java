@@ -21,6 +21,7 @@ import mindustry.world.blocks.defense.OverdriveProjector;
 import mindustry.world.blocks.defense.Wall;
 import mindustry.world.blocks.defense.turrets.ItemTurret;
 import mindustry.world.blocks.defense.turrets.Turret;
+import mindustry.world.blocks.power.ConsumeGenerator;
 import mindustry.world.blocks.production.GenericCrafter;
 import mindustry.world.blocks.production.SolidPump;
 import mindustry.world.blocks.storage.CoreBlock;
@@ -30,9 +31,10 @@ import mindustry.world.meta.BuildVisibility;
 import static arc.graphics.g2d.Draw.color;
 import static mindustry.content.Fx.*;
 import static mindustry.content.Liquids.slag;
+import static mindustry.content.Liquids.water;
 import static mindustry.content.StatusEffects.burning;
-import static mindustry.type.Category.defense;
-import static mindustry.type.Category.turret;
+import static mindustry.gen.Sounds.smelter;
+import static mindustry.type.Category.*;
 import static mindustry.type.ItemStack.with;
 import static mindustry.world.meta.Attribute.heat;
 
@@ -47,7 +49,10 @@ public class MWBlocks {
 
     private static Turret dangtiao, liudanpao, xingshuang, shengguang;
 
-    protected static GenericCrafter jiexi, tfzzc, lghcc, jingTchanShengy, gbyanlan, meitanzhuan,anqiyang,yangqishouji,gangbanlianzhi;
+    protected static GenericCrafter jiexi, tfzzc, lghcc, jingTchanShengy,chaonengyuanji, meitanzhuan,anqiyang,yangqishouji,gangbanlianzhi
+            ,danqiyindaoji,danyaorongzhichang,anqihechengchang,kuangzhaningjuji,shiyingfensuichang,shuitiefanyingji,huahewulianzhilu;
+
+    private static ConsumeGenerator bailinranshaochang;
 
     protected static OverdriveProjector cchangcshengy;
     ;
@@ -60,7 +65,7 @@ public class MWBlocks {
 
             health = 3500;
             size = 1;
-            requirements(Category.power, with(MWItems.gangban, 6));
+            requirements(power, with(MWItems.gangban, 6));
             category = defense;
             absorbLasers = true;
             chanceDeflect = 60;
@@ -70,7 +75,7 @@ public class MWBlocks {
 
             health = 4500;
             size = 1;
-            requirements(Category.power, with(MWItems.shiying, 6));
+            requirements(power, with(MWItems.shiying, 6));
             category = defense;
             absorbLasers = true;
         }};
@@ -79,7 +84,7 @@ public class MWBlocks {
 
             health = 500;
             size = 1;
-            requirements(Category.power, with(MWItems.bailing, 12));
+            requirements(power, with(MWItems.bailin, 12));
             category = defense;
         }};
 
@@ -87,7 +92,7 @@ public class MWBlocks {
 
             health = 13000;
             size = 3;
-            requirements(Category.power, with(MWItems.gangban, 48));
+            requirements(power, with(MWItems.gangban, 48));
             category = defense;
             absorbLasers = true;
             chanceDeflect = 95;
@@ -100,7 +105,7 @@ public class MWBlocks {
 
             health = 19000;
             size = 3;
-            requirements(Category.power, with(MWItems.shiying, 72));
+            requirements(power, with(MWItems.shiying, 72));
             category = defense;
             absorbLasers = true;
             chanceDeflect = 40;
@@ -110,7 +115,7 @@ public class MWBlocks {
 
             health = 5000;
             size = 2;
-            requirements(Category.power, with(MWItems.gangban, 36));
+            requirements(power, with(MWItems.gangban, 36));
             category = defense;
             absorbLasers = true;
             chanceDeflect = 90;
@@ -121,7 +126,7 @@ public class MWBlocks {
 
                 health = 8000;
                 size = 2;
-                requirements(Category.power, with(MWItems.shiying, 24));
+                requirements(power, with(MWItems.shiying, 24));
                 category = defense;
                 absorbLasers = true;
                 chanceDeflect = 20;
@@ -275,7 +280,7 @@ public class MWBlocks {
                     }};
                 }};
                 ammo(
-                        MWItems.bailing, new SapBulletType() {
+                        MWItems.bailin, new SapBulletType() {
                             {
                                 status = burning;
                                 width = 0.9f;
@@ -462,6 +467,204 @@ public class MWBlocks {
                 });
             }
         };
+
+        chaonengyuanji = new GenericCrafter("chaonengyuanji"){{
+                    liquidCapacity=1800;
+                    health=8000;
+                    size=5;
+                    hasPower=hasLiquids=true;
+                    hasItems=false;
+                    craftTime=125;
+            consumePower(3*10);
+            consumeLiquid(MWLiquids.anqi, 0.2f);
+            consumeLiquid(MWLiquids.yangqi, 0.3f);
+            consumeLiquid(MWLiquids.tianranqi, 0.5f);
+            consumeLiquid(MWLiquids.danqi, 0.45f);
+            consumeLiquid(MWLiquids.xiaosuan, 600 / 60f);
+            consumeLiquid(Liquids.water, 0.9f);
+            drawer = new DrawMulti(new DrawDefault());
+            drawer = new DrawLiquidTile();
+            drawer = new DrawRegion(new DrawDefault().toString());
+            outputItem = new ItemStack(MWItems.chaonengti1xing, 2);
+            updateEffect=smeltsmoke;
+            requirements(Category.crafting, new ItemStack[]{
+                    new ItemStack(MWItems.tie, 820),
+                    new ItemStack(MWItems.guitie, 1220),
+                    new ItemStack(MWItems.gangban, 520),
+                    new ItemStack(MWItems.shiying, 340)
+
+            });
+               //现代战争-氨气氧化厂
+            }
+        };
+
+        danqiyindaoji = new GenericCrafter("danqi-yindaoji"){
+            {
+                liquidCapacity = 900;
+                health = 4000;
+                size = 2;
+                hasPower = true;
+                hasLiquids = hasItems = false;
+                craftTime = 45;
+                consumePower(3 * 2);
+                drawer = new DrawMulti(new DrawDefault());
+                outputLiquids = LiquidStack.with(MWLiquids.danqi, 0.5f);
+                updateEffect = smeltsmoke;
+                requirements(Category.crafting, new ItemStack[]{
+                        new ItemStack(MWItems.tie, 140),
+                        new ItemStack(MWItems.gangban, 120)
+                });
+            }};
+
+        danyaorongzhichang = new GenericCrafter("danyao-rongzhichang"){{
+            itemCapacity=120;
+            health=2000;
+            size=2;
+            hasPower=hasLiquids=false;
+            hasItems=true;
+            drawer = new DrawMulti(new DrawDefault());
+            drawer = new DrawMulti(new DrawRegion("-top"));
+            drawer = new DrawMulti(new DrawFlame(Color.valueOf("ffef99")));
+            craftTime=65;
+            consumePower(2);
+            consumeItem(MWItems.tie, 3);
+            updateEffect=hitEmpSpark;
+            outputItem = new ItemStack(MWItems.paodannengyuan, 1);
+            requirements(Category.crafting, new ItemStack[]{
+                    new ItemStack(MWItems.tie, 25)
+                    });
+                       //现代战争-铁
+        }};
+
+        anqihechengchang = new GenericCrafter("anqi-hechengchang"){{
+            liquidCapacity=900;
+            health=6000;
+            size=3;
+            hasPower=hasLiquids=true;
+            hasItems=false;
+            craftTime=65;
+            consumePower(2*5);
+            consumeLiquid(MWLiquids.qingqi, 0.1f);
+            consumeLiquid(MWLiquids.danqi, 0.1f);
+            drawer = new DrawMulti(new DrawDefault());
+            outputLiquids = LiquidStack.with(MWLiquids.anqi, 0.1f);
+            updateEffect=smeltsmoke;
+            requirements(Category.crafting, new ItemStack[]{
+                    new ItemStack(MWItems.tie, 120),
+                    new ItemStack(MWItems.gangban, 320),
+                    new ItemStack(MWItems.shiying, 240),
+            });
+            //现代战争-氮气引导机
+            }};
+
+        kuangzhaningjuji = new GenericCrafter("kuangzha-ningjuji"){{
+            liquidCapacity=900;
+            itemCapacity=100;
+            health=3000;
+            size=3;
+            hasPower=hasItems=hasLiquids=true;
+            craftTime=30;
+            consumeItem(Items.copper, 1);
+            consumeItem(Items.lead, 1);
+            consumeLiquid(slag, 0.1f);
+            drawer = new DrawMulti(new DrawDefault());
+            outputItem = new ItemStack(Items.scrap, 2);
+            updateEffect=smeltsmoke;
+            requirements(Category.crafting, new ItemStack[]{
+                    new ItemStack(MWItems.gangban, 320),
+                    new ItemStack(MWItems.shiying, 240),
+            });
+            //现代战争-氧气收集器
+        }};
+
+        shiyingfensuichang = new GenericCrafter("shiying-fensuichang"){{
+            itemCapacity=30;
+            health=1000;
+            size=2;
+            hasPower=hasItems=true;
+            hasLiquids=false;
+            craftTime=65;
+            consumePower(3);
+            consumeItem(MWItems.shiying, 1);
+            drawer = new DrawMulti(new DrawDefault());
+            outputItem = new ItemStack(MWItems.shiyingsha, 3);
+            updateEffect=smeltsmoke;
+            requirements(Category.crafting, new ItemStack[]{
+                    new ItemStack(MWItems.tie, 80),
+                    new ItemStack(MWItems.shiying, 120),
+            });
+            //copper
+        }};
+
+        shuitiefanyingji = new GenericCrafter("shuitie-fanyingji"){{
+            liquidCapacity=900;
+            itemCapacity=400;
+            health=5000;
+            size=2;
+            hasPower=hasLiquids=hasItems=true;
+            craftTime=45;
+            consumePower(3*2);
+            consumeLiquid(water, 0.3f);
+            consumeItem(MWItems.tie, 1);
+            drawer = new DrawMulti(
+                new DrawDefault(),
+                new DrawRegion("-bottom"),
+                new DrawLiquidTile()
+            );
+            outputLiquids = LiquidStack.with(MWLiquids.qingqi, 0.5f);
+            updateEffect=smeltsmoke;
+            requirements(Category.crafting, new ItemStack[]{
+                    new ItemStack(MWItems.shiying, 240),
+                    new ItemStack(MWItems.gangban, 160),
+            });
+           //现代战争-氧气收集器
+        }};
+
+        huahewulianzhilu = new GenericCrafter("huahewu-lianzhilu"){{
+            itemCapacity=90;
+            health=500;
+            size=2;
+            hasPower=hasItems=true;
+            hasLiquids=false;
+            drawer = new DrawMulti(
+                    new DrawDefault(),
+                    new DrawFlame(Color.valueOf("FFD700")
+                    ));
+            craftTime=65;
+            consumePower(5);
+            consumeItems(with(MWItems.tanfen, 2, MWItems.shiyingsha, 1, MWItems.lingsuangai, 3));
+            drawer = new DrawMulti(new DrawDefault());
+            outputItem = new ItemStack(MWItems.bailin, 1);
+            updateEffect=freezing;
+            requirements(Category.crafting, new ItemStack[]{
+                    new ItemStack(MWItems.tie, 80),
+                    new ItemStack(MWItems.shiying, 30),
+            });
+            //现代战争-石英
+        }};
+
+        bailinranshaochang = new ConsumeGenerator("bailin-ranshaochang"){{
+            size=2;
+            health=1600 ;
+            hasLiquids=false;
+            hasItems=true;
+            itemDuration=30;
+            powerProduction=15;
+            itemCapacity=2;
+            generateEffect=generatespark;
+            consumeItem(MWItems.bailin, 1);
+            requirements(Category.crafting, new ItemStack[]{
+                    new ItemStack(MWItems.tie, 80),
+                    new ItemStack(MWItems.shiying, 50),
+                    new ItemStack(MWItems.gangban, 90),
+            });
+            ambientSound=smelter;
+            ambientSoundVolume=0.01f;
+            category=power;
+            //现代战争-高压能量节点
+        }};
+
+
         jingTchanShengy = new GenericCrafter("jingtichansheng-yi"){{
                 requirements(Category.crafting, new ItemStack[]{
                         new ItemStack(MWItems.gangban, 30),
