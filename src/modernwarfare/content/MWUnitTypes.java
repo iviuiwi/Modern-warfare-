@@ -437,6 +437,7 @@ public class MWUnitTypes {
         };
 
         jichu = new UnitType("jichu") {{
+            constructor = UnitEntity::create;
             speed=15.4f;
             drag=0.6f;
             accel=0.1f;
