@@ -7,9 +7,11 @@ import arc.graphics.g2d.Fill;
 import arc.graphics.g2d.Lines;
 import arc.math.Angles;
 import arc.math.Mathf;
+import arc.struct.Seq;
 import arc.util.Time;
 import mindustry.content.Items;
 import mindustry.content.Liquids;
+import mindustry.content.UnitTypes;
 import mindustry.entities.bullet.ArtilleryBulletType;
 import mindustry.entities.bullet.BasicBulletType;
 import mindustry.entities.bullet.BombBulletType;
@@ -25,9 +27,11 @@ import mindustry.world.blocks.defense.Wall;
 import mindustry.world.blocks.defense.turrets.ItemTurret;
 import mindustry.world.blocks.defense.turrets.Turret;
 import mindustry.world.blocks.power.ConsumeGenerator;
+import mindustry.world.blocks.power.PowerNode;
 import mindustry.world.blocks.production.GenericCrafter;
 import mindustry.world.blocks.production.SolidPump;
 import mindustry.world.blocks.storage.CoreBlock;
+import mindustry.world.blocks.units.UnitFactory;
 import mindustry.world.consumers.ConsumeLiquid;
 import mindustry.world.draw.*;
 import mindustry.world.meta.BuildVisibility;
@@ -56,6 +60,10 @@ public class MWBlocks {
 
     protected static GenericCrafter jiexi, tfzzc, lghcc, jingTchanShengy,chaonengyuanji, meitanzhuan,anqiyang,yangqishouji,gangbanlianzhi
             ,danqiyindaoji,danyaorongzhichang,anqihechengchang,kuangzhaningjuji,shiyingfensuichang,shuitiefanyingji,huahewulianzhilu;
+
+    private static UnitFactory chuji;
+
+    private static PowerNode gaoya;
 
     private static ConsumeGenerator bailinranshaochang;
 
@@ -482,6 +490,28 @@ public class MWBlocks {
             requirements(Category.crafting, new ItemStack[]{
                     new ItemStack(MWItems.tie, 25),
             });
+        }};
+
+        chuji = new UnitFactory("chuji"){{
+            requirements(Category.units, with(Items.copper, 50, Items.lead, 120, Items.silicon, 80));
+            plans = Seq.with(
+                    new UnitPlan(MWUnitTypes.caikuangji, 60f * 15, with(Items.graphite, 20, MWItems.tie, 30)),
+                    new UnitPlan(MWUnitTypes.jichu, 60f * 15, with(Items.graphite, 120, Items.silicon, 80))
+            );
+            size = 3;
+            consumePower(1.2f);
+        }};
+
+        gaoya = new PowerNode("gaoji"){{
+            size=1;
+            health=120;
+            laserRange=20;
+            maxNodes=30;
+            requirements(Category.crafting, new ItemStack[]{
+                    new ItemStack(MWItems.tie, 10),
+            });
+            category=power;
+           //现代战争-铁
         }};
 
         tfzzc = new GenericCrafter("tf-zz-c") {{

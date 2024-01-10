@@ -1,10 +1,15 @@
 package modernwarfare.content;
 
+import arc.graphics.g2d.Lines;
+import mindustry.Vars;
 import mindustry.content.Fx;
+import mindustry.entities.Effect;
 import mindustry.entities.abilities.EnergyFieldAbility;
 import mindustry.entities.abilities.ForceFieldAbility;
 import mindustry.entities.abilities.SuppressionFieldAbility;
 import mindustry.entities.bullet.*;
+import mindustry.entities.effect.ExplosionEffect;
+import mindustry.entities.effect.MultiEffect;
 import mindustry.entities.part.HaloPart;
 import mindustry.entities.part.ShapePart;
 import mindustry.entities.pattern.ShootSpread;
@@ -12,11 +17,12 @@ import mindustry.gen.LegsUnit;
 import mindustry.gen.MechUnit;
 import mindustry.gen.Sounds;
 import mindustry.gen.UnitEntity;
+import mindustry.graphics.Pal;
 import mindustry.type.UnitType;
 import mindustry.type.Weapon;
 
 import static mindustry.content.Fx.none;
-import static mindustry.content.Fx.smokeCloud;
+import static mindustry.content.Fx.*;
 import static mindustry.content.StatusEffects.electrified;
 import static mindustry.gen.Sounds.*;
 import static modernwarfare.content.MWStatusEffects.cuowei1;
@@ -24,7 +30,7 @@ import static modernwarfare.content.MWStatusEffects.cuowei2;
 
 
 public class MWUnitTypes {
-    public static UnitType nsxpp, xns, feiji1, caikuangji,zhongzixing;
+    public static UnitType nsxpp, xns, feiji1, caikuangji,zhongzixing,jichu;
 
 
     public static void load() {
@@ -402,7 +408,6 @@ public class MWUnitTypes {
                             continuous = true;
                             cooldownTime = 300;
                             BulletType e = new ContinuousLaserBulletType() {{
-                                ;
                                 smokeEffect = none;
                                 status = cuowei1;
                                 statusDuration = 300;
@@ -430,6 +435,96 @@ public class MWUnitTypes {
                         });
             }
         };
+
+        jichu = new UnitType("jichu") {{
+            speed=15.4f;
+            drag=0.6f;
+            accel=0.1f;
+            rotateSpeed=20;
+            ammoCapacity=0;
+            hitSize=18;
+            flying=true;
+            faceTarget=true;
+            range=40;
+            health=290;
+            armor=2;
+            engineSize=1.2f;
+            engineOffset=8;
+            trailLength=4;
+            abilities.add(new ForceFieldAbility(32, 0.04f, 30f, 12));
+            weapons.addAll(
+                    new Weapon("Bom") {{
+                        reload=30;
+                        x=0;
+                        y=0;
+                        rotate=false;
+                        shootCone=170;
+                        ejectEffect=none;
+                        shootSound=explosionbig;
+                        mirror=false;
+                        inaccuracy=0;
+                        alternate=true;
+                        top=false;
+                        shootOnDeath=true;
+                        BulletType g = new ContinuousLaserBulletType() {
+                            {
+                                maxRange = 260;
+                                killShooter=true;
+                                splashDamageRadius=78;
+                                instantDisappear=true;
+                                collides=false;
+                                splashDamage=90;
+                                speed=1;
+                                lifetime=10;
+                                hitEffect=massiveExplosion;
+                                hitEffect = despawnEffect = new MultiEffect(
+                                        new Effect(200, e -> {
+                                            rand.setSeed(e.id);
+                                            float r = 45 * 8;
+                                            float pin = (1 - e.foutpow());
+                                            Lines.circle(e.x, e.y, r * pin);
+
+                                            if(!Vars.state.isPaused()) Effect.shake(5, 5, e.x, e.y);
+                                        }),
+                                        new ExplosionEffect(){{
+                                            lifetime = 180f;
+                                            waveStroke = 0f;
+                                            waveLife = 0f;
+                                            smokeColor = Pal.gray;
+                                            smokes = 10;
+                                            smokeSize = 56;
+                                            sparks = 16;
+                                            smokeRad = sparkRad = 45 * 8;
+                                            sparkLen = 21f;
+                                            sparkStroke = 9f;
+                                        }}
+                                );
+                                abilities.add(
+                                        new SuppressionFieldAbility() {
+                                            {
+                                                orbRadius = 5;
+                                                particleSize = 9;
+                                                y = -12.4f;
+                                                x = 2;
+                                                particles = 18;
+                                                length = 65;
+                                                lifetime = 35;
+                                            }},
+                                new SuppressionFieldAbility() {
+                                    {
+                                        particles = 12;
+                                        length = 23;
+                                        lifetime = 22;
+                                    }});
+                            }
+                        };
+                        abilities.add(new ForceFieldAbility(60f, 0.3f, 400f, 60f * 6));
+                        bullet = g;
+                    }
+                    }
+                );
+            }
+        };
     }
-};
+}
 
