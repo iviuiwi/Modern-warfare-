@@ -1,25 +1,17 @@
 package modernwarfare.content;
 
-import arc.Core;
 import arc.graphics.Color;
 import arc.graphics.g2d.Lines;
-import arc.scene.ui.layout.Table;
-import arc.struct.ObjectSet;
 import mindustry.Vars;
-import mindustry.ai.UnitCommand;
-import mindustry.ai.types.FlyingAI;
-import mindustry.ai.types.FlyingFollowAI;
-import mindustry.ai.types.GroundAI;
 import mindustry.content.Fx;
-import mindustry.content.Items;
-import mindustry.content.StatusEffects;
-import mindustry.content.UnitTypes;
 import mindustry.entities.Effect;
 import mindustry.entities.abilities.EnergyFieldAbility;
 import mindustry.entities.abilities.ForceFieldAbility;
 import mindustry.entities.abilities.SuppressionFieldAbility;
-import mindustry.entities.abilities.UnitSpawnAbility;
-import mindustry.entities.bullet.*;
+import mindustry.entities.bullet.BulletType;
+import mindustry.entities.bullet.ContinuousLaserBulletType;
+import mindustry.entities.bullet.LaserBulletType;
+import mindustry.entities.bullet.MissileBulletType;
 import mindustry.entities.effect.ExplosionEffect;
 import mindustry.entities.effect.MultiEffect;
 import mindustry.entities.part.HaloPart;
@@ -32,18 +24,14 @@ import mindustry.gen.UnitEntity;
 import mindustry.graphics.Pal;
 import mindustry.type.UnitType;
 import mindustry.type.Weapon;
-import mindustry.type.ammo.ItemAmmoType;
 
 import static mindustry.content.Fx.none;
 import static mindustry.content.Fx.*;
-import static mindustry.content.StatusEffects.electrified;
 import static mindustry.gen.Sounds.*;
-import static modernwarfare.content.MWStatusEffects.cuowei1;
-import static modernwarfare.content.MWStatusEffects.cuowei2;
 
 
 public class MWUnitTypes {
-    public static UnitType nsxpp, xns, feiji1, caikuangji,zhongzixing,jichu;
+    public static UnitType nsxpp, xns, feiji1, caikuangji,zhongzixing,jichu,cuowu;
 
 
     public static void load() {
@@ -107,7 +95,7 @@ public class MWUnitTypes {
                 groundLayer = 74.0F;
                 faceTarget = false;
 
-                BulletType s = new SapBulletType() {{
+                BulletType s = new ContinuousLaserBulletType() {{
                     width = 1.5f;
                     damage = 2024f;
                     length = 70f;
@@ -192,7 +180,7 @@ public class MWUnitTypes {
             groundLayer = 74.0F;
             faceTarget = false;
 
-            BulletType b = new SapBulletType() {{
+            BulletType b = new ContinuousLaserBulletType() {{
                 damage = 2024F;
             }};
             weapons.addAll(
@@ -229,9 +217,6 @@ public class MWUnitTypes {
         caikuangji = new UnitType("caikuang-ji") {
             {
                 constructor = UnitEntity::create;
-                aiController = FlyingFollowAI::new;
-                defaultCommand = UnitCommand.mineCommand;
-                controller = u -> new FlyingAI();
                 health = 100;
                 speed = 2;
                 range = 20;
@@ -248,9 +233,6 @@ public class MWUnitTypes {
         zhongzixing = new UnitType("zhongzixing") {
             {
                 constructor = UnitEntity::create;
-                aiController = FlyingFollowAI::new;
-                defaultCommand = UnitCommand.mineCommand;
-                controller = u -> new FlyingAI();
                 speed = 4f;
                 drag = 0.6f;
                 accel = 0.1f;
@@ -274,17 +256,12 @@ public class MWUnitTypes {
                         damage = 500;
                         reload = 15;
                         range = 20;
-                        status = cuowei2;
-                        statusDuration = 60;
                         maxTargets = 60;
                         effectRadius = 0;
                         sectors = 0;
                         rotateSpeed = 0;
                         sectorRad = 0;
                         healPercent = 10;
-                        damageEffect = none;
-                        hitEffect = none;
-                        healEffect = none;
                     }
                 });
                 itemCapacity = 1000000;
@@ -336,8 +313,6 @@ public class MWUnitTypes {
                     damage = 624;
                     width = 10;
                     length = 50;
-                    statusDuration = 120;
-                    status = electrified;
                     lifetime = 160;
                     hitShake = 1;
                     despawnEffect = smokeCloud;
@@ -429,9 +404,6 @@ public class MWUnitTypes {
 
         jichu = new UnitType("jichu") {{
             constructor = UnitEntity::create;
-            aiController = FlyingFollowAI::new;
-            defaultCommand = UnitCommand.mineCommand;
-            controller = u -> new FlyingAI();
             speed=15.4f;
             drag=0.6f;
             accel=0.1f;
@@ -520,6 +492,99 @@ public class MWUnitTypes {
                 );
             }
         };
+
+        cuowu = new UnitType("cuowu") {{
+            constructor = UnitEntity::create;//类别是飞机
+            speed=5.4f;//速度
+            drag=0.6f;//拉
+            accel=0.1f;//加速
+            ammoCapacity=0;//弹药容量
+            hitSize=18;//命中尺寸
+            flying=true;//是否飞行
+            faceTarget=true;//面部目标
+            range=90;//范围
+            health=2048;//生命
+            armor=2;//装甲
+            engineSize=1.2f;//发动机大小
+            engineOffset=8;//发动机偏移
+            trailLength=4;//步道长度
+            abilities.add(new EnergyFieldAbility(20 * 8, 90, 2100) {//立场墙特效
+                {
+                    hitBuildings = true;//是否命中建筑物
+                    damage = 5000;//伤害
+                    reload = 15;//重新加载时间
+                    range = 20;//范围
+                    maxTargets = 60;//最大目标
+                    effectRadius = 0;//效果半径
+                    rotateSpeed = 0;//旋转速度
+                }
+            });
+            BulletType h = new ContinuousLaserBulletType() {
+                {
+                    width = 5f;
+                    length = 600;
+                    damage = 500;
+                    shake = 1f;
+                    largeHit = true;
+                    drawSize =420f;
+                    incendAmount = 1;
+                    incendSpread =5;
+                    incendChance = 0.4f;
+                    lightColor = Color.blue;
+                    hitColor = colors[2];
+                }};
+            parts.add(
+                    new HaloPart() {
+                        {
+                            rotateSpeed = 3;
+                            sides = 3;
+                            shapes = 6;//围绕旋转的图形数量
+                            layer = 110;//所在图层高度
+                            tri = false;//是否三角形
+                            radius = 8;//开始时的大小
+                            radiusTo = 15;//结束时的大小
+                            triLength = 180;//三角形开始时的尖锐程度
+                            triLengthTo = 180;//三角形结束时的尖锐程度
+                            haloRadius = 30;//开始时的围绕半径
+                            haloRadiusTo = 50;//结束时的围绕半径
+                            haloRotation = 0;//开始时的角度
+                            haloRotateSpeed = 0.9f;//旋转速度
+                        }
+                    });
+
+            weapons.addAll(
+                    new Weapon("sishe") {{
+                        reload=30;
+                        x=10;
+                        y=0;
+                        rotate=false;
+                        shootCone=170;
+                        ejectEffect=none;
+                        shootSound=explosionbig;
+                        mirror=false;
+                        inaccuracy=0;
+                        alternate=true;
+                        top=false;
+                        shootOnDeath=true;
+                        bullet = h;
+                    }},
+                    new Weapon("sishe2") {{
+                        reload=30;
+                        x=-10;
+                        y=0;
+                        rotate=false;
+                        shootCone=170;
+                        ejectEffect=none;
+                        shootSound=explosionbig;
+                        mirror=false;
+                        inaccuracy=0;
+                        alternate=true;
+                        top=false;
+                        shootOnDeath=true;
+                        bullet = h;
+                    }}
+            );
+        }};
     }
 }
 
