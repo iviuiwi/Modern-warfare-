@@ -17,8 +17,8 @@ public class ModernWarfareMod extends Mod {
         MWItems.load();
         MWLiquids.load();
         MWflot.load();
-        MWBlocks.load();
         MWUnitTypes.load();
+        MWBlocks.load();
         MWStatusEffects.load();
         MWPlanets.load();
         SectorPresets.load();

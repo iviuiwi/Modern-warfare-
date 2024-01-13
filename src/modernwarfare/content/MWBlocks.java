@@ -1,27 +1,12 @@
 package modernwarfare.content;
 
-import arc.graphics.Blending;
 import arc.graphics.Color;
-import arc.graphics.g2d.Draw;
-import arc.graphics.g2d.Fill;
-import arc.graphics.g2d.Lines;
-import arc.math.Angles;
-import arc.math.Mathf;
 import arc.struct.Seq;
-import arc.util.Time;
 import mindustry.content.Items;
 import mindustry.content.Liquids;
-import mindustry.content.UnitTypes;
-import mindustry.entities.bullet.ArtilleryBulletType;
-import mindustry.entities.bullet.BasicBulletType;
-import mindustry.entities.bullet.BombBulletType;
-import mindustry.entities.bullet.SapBulletType;
+import mindustry.entities.bullet.*;
 import mindustry.entities.part.RegionPart;
-import mindustry.gen.Building;
-import mindustry.gen.Sounds;
-import mindustry.type.Category;
-import mindustry.type.ItemStack;
-import mindustry.type.LiquidStack;
+import mindustry.type.*;
 import mindustry.world.blocks.defense.OverdriveProjector;
 import mindustry.world.blocks.defense.Wall;
 import mindustry.world.blocks.defense.turrets.ItemTurret;
@@ -63,13 +48,22 @@ public class MWBlocks {
 
     private static UnitFactory chuji;
 
-    private static PowerNode gaoya;
+    private static PowerNode gaoya,dgaoya;
 
     private static ConsumeGenerator bailinranshaochang;
 
     protected static OverdriveProjector cchangcshengy;
     ;
     private static CoreBlock spaceStationCore;
+
+    public static class LiquidUnitPlan extends UnitFactory.UnitPlan{
+        public LiquidStack[] liquid;
+
+        public LiquidUnitPlan(UnitType unit, float time, ItemStack[] requirements, LiquidStack[] liquid){
+            super(unit, time, requirements);
+            this.liquid = liquid;
+        }
+    }
 
     public static void load() {
 
@@ -318,93 +312,93 @@ public class MWBlocks {
         };
 
         shengmie = new ItemTurret("sheng-mie") {{
-                size=2;
-                health=2600;
-                ammoPerShot=10;
-                range=260;
-                reload=60;
-                liquidCapacity=60;
-                coolant = consume(new ConsumeLiquid(Liquids.cryofluid, 0.05f));
-                recoil=10;
-                recoilTime=20;
-                inaccuracy=1;
-                ammoUseEffect=casing2;
-                rotateSpeed=2.3f;
-                maxAmmo=50;
-                targetAir=true;
-                targetGround=true;
-                coolantMultiplier=2.9f;
-                ammo(
-                MWItems.bailin, new BombBulletType() {{
-                            status=burning;
-                            splashDamageRadius=25;
-                            splashDamage=30;
-                            pierceCap=1;
-                            reloadMultiplier=1.6f;
-                            speed=18;
-                            damage=50;
-                            knockback=2.3f;
-                            lifetime=36;
-                            width=10;
-                            height=20;
-                            ammoMultiplier=1;
-                            shootEffect=shootBig;
+            size = 2;
+            health = 2600;
+            ammoPerShot = 10;
+            range = 260;
+            reload = 60;
+            liquidCapacity = 60;
+            coolant = consume(new ConsumeLiquid(Liquids.cryofluid, 0.05f));
+            recoil = 10;
+            recoilTime = 20;
+            inaccuracy = 1;
+            ammoUseEffect = casing2;
+            rotateSpeed = 2.3f;
+            maxAmmo = 50;
+            targetAir = true;
+            targetGround = true;
+            coolantMultiplier = 2.9f;
+            ammo(
+                    MWItems.bailin, new BombBulletType() {{
+                        status = burning;
+                        splashDamageRadius = 25;
+                        splashDamage = 30;
+                        pierceCap = 1;
+                        reloadMultiplier = 1.6f;
+                        speed = 18;
+                        damage = 50;
+                        knockback = 2.3f;
+                        lifetime = 36;
+                        width = 10;
+                        height = 20;
+                        ammoMultiplier = 1;
+                        shootEffect = shootBig;
                     }});
-                requirements(Category.crafting, new ItemStack[]{
-                        new ItemStack(MWItems.tie, 230),
-                        new ItemStack(MWItems.gangban, 140),
-                        });
-                category=turret;
-                //荡涤
-            }};
+            requirements(Category.crafting, new ItemStack[]{
+                    new ItemStack(MWItems.tie, 230),
+                    new ItemStack(MWItems.gangban, 140),
+            });
+            category = turret;
+            //荡涤
+        }};
 
         shipo = new ItemTurret("shipo") {{
-                size=2;
-                health=1000;
-                ammoPerShot=1;
-                range=520;
-                reload=60;
-                consumePower(2);
-                inaccuracy=0;
-                ammoPerShot=1;
-                ammoUseEffect=casing2;
-                shootSound=missile;
-                maxAmmo=120;
-                targetAir=true;
-                targetGround=true;
-                coolantMultiplier=5;
-                ammo(
+            size = 2;
+            health = 1000;
+            ammoPerShot = 1;
+            range = 520;
+            reload = 60;
+            consumePower(2);
+            inaccuracy = 0;
+            ammoPerShot = 1;
+            ammoUseEffect = casing2;
+            shootSound = missile;
+            maxAmmo = 120;
+            targetAir = true;
+            targetGround = true;
+            coolantMultiplier = 5;
+            ammo(
                     MWItems.chaonengti1xing, new BombBulletType() {{
-                        pierceCap=1;
-                        reloadMultiplier=1;
-                        speed=20;
-                        damage=1;
-                        knockback=1.1f;
-                        lifetime=60;
-                        width=3;
-                        height=45;
-                        ammoMultiplier=10;
-                        status=MWStatusEffects.cuowei1;
-                        splashDamageRadius=1;
-                        splashDamage=60;
-                        shootEffect=shootBig;
+                        pierceCap = 1;
+                        reloadMultiplier = 1;
+                        speed = 20;
+                        damage = 1;
+                        knockback = 1.1f;
+                        lifetime = 60;
+                        width = 3;
+                        height = 45;
+                        ammoMultiplier = 10;
+                        status = MWStatusEffects.cuowei1;
+                        splashDamageRadius = 1;
+                        splashDamage = 60;
+                        shootEffect = shootBig;
                     }},
-                        MWItems.chaonengti2xing, new BombBulletType() {{
-                        pierceCap=1;
-                        reloadMultiplier=1.2f;
-                        speed=26;
-                        damage=1;
-                        knockback=1;
-                        lifetime=60;
-                        width=2;
-                        height=60;
-                        ammoMultiplier=11;
-                        status=MWStatusEffects.cuowei2;
-                        splashDamageRadius=1;
-                        splashDamage=60;
-                        shootEffect=shootBig;
+                    MWItems.chaonengti2xing, new BombBulletType() {{
+                        pierceCap = 1;
+                        reloadMultiplier = 1.2f;
+                        speed = 26;
+                        damage = 1;
+                        knockback = 1;
+                        lifetime = 60;
+                        width = 2;
+                        height = 60;
+                        ammoMultiplier = 11;
+                        status = MWStatusEffects.cuowei2;
+                        splashDamageRadius = 1;
+                        splashDamage = 60;
+                        shootEffect = shootBig;
                     }},
-                        MWItems.chaonengti3xing, new BombBulletType() {{
+                    MWItems.chaonengti3xing, new BombBulletType() {{
                         pierceCap = 1;
                         reloadMultiplier = 1.4f;
                         speed = 30;
@@ -422,56 +416,57 @@ public class MWBlocks {
                                 new ItemStack(MWItems.tie, 300),
                                 new ItemStack(MWItems.guitie, 150),
                                 new ItemStack(MWItems.shiying, 200)
-                                });
-                category = turret;
-                                //现代战争-锋芒
-                            }});
+                        });
+                        category = turret;
+                        //现代战争-锋芒
+                    }});
         }};
 
 
         suishan = new ItemTurret("suishan") {{
-                size=3;
-                health=4000;
-                range=240;
-                reload=50;
-                inaccuracy=3;
-                ammoPerShot=1;
-                ammoUseEffect=casing2;
-                maxAmmo=20;
-                targetAir=false;
-                coolantMultiplier=2;
+            size = 3;
+            health = 4000;
+            range = 240;
+            reload = 50;
+            inaccuracy = 3;
+            ammoPerShot = 1;
+            ammoUseEffect = casing2;
+            maxAmmo = 20;
+            targetAir = false;
+            coolantMultiplier = 2;
             ammo(
-                MWItems.paodannengyuan, new BombBulletType() {{
-                    pierceCap=1;
-                    reloadMultiplier=0.8f;
-                    speed=5;
-                    fragBullets=20;
-                    fragBullet = new ArtilleryBulletType(){
-                        {
-                            damage = 400;
-                            fragBullets = 10;
-                            fragBullet = new ArtilleryBulletType() {{
-                                fragBullets = 5;
-                                status = burning;
-                                splashDamageRadius = 35;
-                                splashDamage = 30;
-                                damage = 200;
-                            }};
-                        }};
-                    damage=350;
-                    knockback=15.5f;
-                    lifetime=80;
-                    width=35;
-                    height=35;
-                    ammoMultiplier=1;
-                    shootEffect=shootBig;
-                }});
+                    MWItems.paodannengyuan, new BombBulletType() {{
+                        pierceCap = 1;
+                        reloadMultiplier = 0.8f;
+                        speed = 5;
+                        fragBullets = 20;
+                        fragBullet = new ArtilleryBulletType() {
+                            {
+                                damage = 400;
+                                fragBullets = 10;
+                                fragBullet = new ArtilleryBulletType() {{
+                                    fragBullets = 5;
+                                    status = burning;
+                                    splashDamageRadius = 35;
+                                    splashDamage = 30;
+                                    damage = 200;
+                                }};
+                            }
+                        };
+                        damage = 350;
+                        knockback = 15.5f;
+                        lifetime = 80;
+                        width = 35;
+                        height = 35;
+                        ammoMultiplier = 1;
+                        shootEffect = shootBig;
+                    }});
             requirements(Category.crafting, new ItemStack[]{
                     new ItemStack(MWItems.tie, 140),
                     new ItemStack(MWItems.gangban, 70),
             });
-                category=turret;
-                //duo
+            category = turret;
+            //duo
         }};
 
         //————————————————————————————————————————————————————————————————————————————————
@@ -492,15 +487,29 @@ public class MWBlocks {
             });
         }};
 
-        chuji = new UnitFactory("chuji"){{
-            requirements(Category.units, with(Items.copper, 50, Items.lead, 120, Items.silicon, 80));
-            plans = Seq.with(
-                    new UnitPlan(MWUnitTypes.caikuangji, 60f * 15, with(Items.graphite, 20, MWItems.tie, 30)),
-                    new UnitPlan(MWUnitTypes.jichu, 60f * 15, with(Items.graphite, 120, Items.silicon, 80))
-            );
-            size = 3;
-            consumePower(1.2f);
-        }};
+
+        chuji = new UnitFactory("chuji") {
+            {
+                health=400;
+                alwaysUnlocked = true;
+                hasItems = false;
+                configurable = false;
+
+                size = 3;
+                plans = Seq.with(
+                        new UnitPlan(MWUnitTypes.jichu, 900f,with(Items.graphite, 120, Items.silicon, 80)),
+                        new UnitPlan(MWUnitTypes.caikuangji, 900f,with(Items.graphite, 20, MWItems.tie, 30))
+                );
+
+                consumePower(69f / 60f);
+                requirements(Category.units, new ItemStack[]{
+                        new ItemStack(Items.copper, 400),
+                        new ItemStack(Items.lead, 500),
+                        new ItemStack(Items.graphite, 120),
+                        new ItemStack(Items.silicon, 200),
+                });
+            }};
+
 
         gaoya = new PowerNode("gaoji"){{
             size=1;
@@ -513,6 +522,22 @@ public class MWBlocks {
             category=power;
            //现代战争-铁
         }};
+
+
+        dgaoya = new PowerNode("d-gaoji") {
+            {
+                size = 2;
+                health = 520;
+                laserRange = 60;
+                maxNodes = 45;
+                requirements(Category.crafting, new ItemStack[]{
+                        new ItemStack(MWItems.tie, 40),
+                        new ItemStack(MWItems.gangban, 10),
+                });
+                category = power;
+                //现代战争-铁;
+            }
+        };
 
         tfzzc = new GenericCrafter("tf-zz-c") {{
             itemCapacity = 30;
@@ -878,47 +903,6 @@ public class MWBlocks {
                     circleStroke = 1.05f;
                     circleSpace = 2.65f;
                 }
-
-                @Override
-                public void draw(Building build){
-                    if(build.warmup() > 0f && flameColor.a > 0.001f){
-                        Lines.stroke(circleStroke * build.warmup());
-
-                        float si = Mathf.absin(flameRadiusScl, flameRadiusMag);
-                        float a = alpha * build.warmup();
-
-                        Draw.blend(Blending.additive);
-                        color(flameColor, a);
-
-                        float base = (Time.time / particleLife);
-                        rand.setSeed(build.id);
-                        for(int i = 0; i < particles; i++){
-                            float fin = (rand.random(1f) + base) % 1f, fout = 1f - fin;
-                            float angle = rand.random(360f) + (Time.time / rotateScl) % 360f;
-                            float len = particleRad * particleInterp.apply(fout);
-                            Draw.alpha(a * (1f - Mathf.curve(fin, 1f - fadeMargin)));
-                            Fill.square(
-                                    build.x + Angles.trnsx(angle, len),
-                                    build.y + Angles.trnsy(angle, len),
-                                    particleSize * fin * build.warmup(), 45
-                            );
-                        }
-
-                        Draw.blend();
-
-                        color(midColor, build.warmup());
-                        Lines.square(build.x, build.y, (flameRad + circleSpace + si) * build.warmup(), 45);
-
-                        Draw.reset();
-                    }
-                }
-            };
-                    new DrawGlowRegion(){{
-                        layer = -1;
-                        glowIntensity = 1.1f;
-                        alpha = 1.1f;
-                    }};
-            }
         };
         cchangcshengy = new OverdriveProjector("cchang-csheng-y"){{
             requirements(Category.effect, with(Items.lead, 200, Items.titanium, 130, Items.silicon, 130, Items.plastanium, 80, Items.surgeAlloy, 120));
@@ -942,6 +926,9 @@ public class MWBlocks {
             size = 3;
 
             unitCapModifier = 16;
-        }};
+                    }
+                };
+            }
+        };
     }
 }

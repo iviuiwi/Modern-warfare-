@@ -1,12 +1,24 @@
 package modernwarfare.content;
 
+import arc.Core;
+import arc.graphics.Color;
 import arc.graphics.g2d.Lines;
+import arc.scene.ui.layout.Table;
+import arc.struct.ObjectSet;
 import mindustry.Vars;
+import mindustry.ai.UnitCommand;
+import mindustry.ai.types.FlyingAI;
+import mindustry.ai.types.FlyingFollowAI;
+import mindustry.ai.types.GroundAI;
 import mindustry.content.Fx;
+import mindustry.content.Items;
+import mindustry.content.StatusEffects;
+import mindustry.content.UnitTypes;
 import mindustry.entities.Effect;
 import mindustry.entities.abilities.EnergyFieldAbility;
 import mindustry.entities.abilities.ForceFieldAbility;
 import mindustry.entities.abilities.SuppressionFieldAbility;
+import mindustry.entities.abilities.UnitSpawnAbility;
 import mindustry.entities.bullet.*;
 import mindustry.entities.effect.ExplosionEffect;
 import mindustry.entities.effect.MultiEffect;
@@ -20,6 +32,7 @@ import mindustry.gen.UnitEntity;
 import mindustry.graphics.Pal;
 import mindustry.type.UnitType;
 import mindustry.type.Weapon;
+import mindustry.type.ammo.ItemAmmoType;
 
 import static mindustry.content.Fx.none;
 import static mindustry.content.Fx.*;
@@ -216,6 +229,9 @@ public class MWUnitTypes {
         caikuangji = new UnitType("caikuang-ji") {
             {
                 constructor = UnitEntity::create;
+                aiController = FlyingFollowAI::new;
+                defaultCommand = UnitCommand.mineCommand;
+                controller = u -> new FlyingAI();
                 health = 100;
                 speed = 2;
                 range = 20;
@@ -232,6 +248,9 @@ public class MWUnitTypes {
         zhongzixing = new UnitType("zhongzixing") {
             {
                 constructor = UnitEntity::create;
+                aiController = FlyingFollowAI::new;
+                defaultCommand = UnitCommand.mineCommand;
+                controller = u -> new FlyingAI();
                 speed = 4f;
                 drag = 0.6f;
                 accel = 0.1f;
@@ -313,6 +332,18 @@ public class MWUnitTypes {
                                 haloRotateSpeed = 0.9f;//旋转速度
                             }
                         });
+                BulletType c = new LaserBulletType() {{
+                    damage = 624;
+                    width = 10;
+                    length = 50;
+                    statusDuration = 120;
+                    status = electrified;
+                    lifetime = 160;
+                    hitShake = 1;
+                    despawnEffect = smokeCloud;
+                    smokeEffect = none;
+                    abilities.add(new ForceFieldAbility(60f, 0.3f, 400f, 60f * 6));
+                }};
                 weapons.addAll(
                         new Weapon("qiangpenfa") {{
                             x = 0;
@@ -324,17 +355,7 @@ public class MWUnitTypes {
                             inaccuracy = 360;//误差角度
                             shootSound = laserblast;
                             chargeSound = lasercharge;
-                            BulletType b = new LaserBulletType() {{
-                                damage = 1124;
-                                width = 10;
-                                length = 100;
-                                statusDuration = 240;
-                                status = electrified;
-                                hitShake = 3;  // 命中震动程度为2
-                                despawnEffect = smokeCloud;
-                                smokeEffect = none;
-                            }};
-                            bullet = b;
+                            bullet = c;
                             abilities.add(
                                     new SuppressionFieldAbility() {{
                                         particles = 20;  // 粒子数量为6
@@ -353,18 +374,6 @@ public class MWUnitTypes {
                                 inaccuracy = 360;
                                 shootSound = laserblast;
                                 chargeSound = lasercharge;
-                                BulletType c = new LaserBulletType() {{
-                                    damage = 624;
-                                    width = 10;
-                                    length = 50;
-                                    statusDuration = 120;
-                                    status = electrified;
-                                    lifetime = 160;
-                                    hitShake = 1;
-                                    despawnEffect = smokeCloud;
-                                    smokeEffect = none;
-                                    abilities.add(new ForceFieldAbility(60f, 0.3f, 400f, 60f * 6));
-                                }};
                                 bullet = c;
                             }
                         },
@@ -379,19 +388,7 @@ public class MWUnitTypes {
                             continuous = true;
                             shootSound = laserblast;
                             chargeSound = lasercharge;
-                            BulletType d = new LaserBulletType() {{
-                                damage = 624;
-                                width = 10;
-                                length = 50;
-                                statusDuration = 120;
-                                status = electrified;
-                                lifetime = 160;
-                                hitShake = 1;
-                                despawnEffect = smokeCloud;
-                                smokeEffect = none;
-                                abilities.add(new ForceFieldAbility(60f, 0.3f, 400f, 60f * 6));
-                            }};
-                            bullet = d;
+                            bullet = c;
                         }},
                         new Weapon("changshi-penfa") {{
                             mirror = false;
@@ -407,17 +404,7 @@ public class MWUnitTypes {
                             shootSound = beam;
                             continuous = true;
                             cooldownTime = 300;
-                            BulletType e = new ContinuousLaserBulletType() {{
-                                smokeEffect = none;
-                                status = cuowei1;
-                                statusDuration = 300;
-                                collidesTeam = true;
-                                healPercent = 1.3f;
-                                ammoMultiplier = 1;
-                                damage = 265;
-                                abilities.add(new ForceFieldAbility(60f, 0.3f, 400f, 60f * 6));
-                            }};
-                            bullet = e;
+                            bullet = c;
                         }},
                         new Weapon("zaixing-2") {
                             {
@@ -425,19 +412,26 @@ public class MWUnitTypes {
                                 y = 0;
                                 shootY = 0;
                                 mirror = false;
-                                BulletType f = new ContinuousLaserBulletType() {
+                                bullet = new ContinuousLaserBulletType() {
                                     {
                                         maxRange = 260;
+                                        lifetime = 390;
+                                        damage = 624;
+                                        length = 50;
                                     }
                                 };
-                                bullet = f;
                             }
+
+                            ;
                         });
             }
         };
 
         jichu = new UnitType("jichu") {{
             constructor = UnitEntity::create;
+            aiController = FlyingFollowAI::new;
+            defaultCommand = UnitCommand.mineCommand;
+            controller = u -> new FlyingAI();
             speed=15.4f;
             drag=0.6f;
             accel=0.1f;
