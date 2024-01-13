@@ -8,10 +8,7 @@ import mindustry.entities.Effect;
 import mindustry.entities.abilities.EnergyFieldAbility;
 import mindustry.entities.abilities.ForceFieldAbility;
 import mindustry.entities.abilities.SuppressionFieldAbility;
-import mindustry.entities.bullet.BulletType;
-import mindustry.entities.bullet.ContinuousLaserBulletType;
-import mindustry.entities.bullet.LaserBulletType;
-import mindustry.entities.bullet.MissileBulletType;
+import mindustry.entities.bullet.*;
 import mindustry.entities.effect.ExplosionEffect;
 import mindustry.entities.effect.MultiEffect;
 import mindustry.entities.part.HaloPart;
@@ -31,7 +28,7 @@ import static mindustry.gen.Sounds.*;
 
 
 public class MWUnitTypes {
-    public static UnitType nsxpp, xns, feiji1, caikuangji,zhongzixing,jichu,cuowu;
+    public static UnitType nsxpp, xns, feiji1, caikuangji,zhongzixing,jichu,cuowu,genkui;
 
 
     public static void load() {
@@ -396,8 +393,6 @@ public class MWUnitTypes {
                                     }
                                 };
                             }
-
-                            ;
                         });
             }
         };
@@ -585,6 +580,66 @@ public class MWUnitTypes {
                     }}
             );
         }};
+
+        genkui = new UnitType("genkui") {
+            {
+                constructor = LegsUnit::create;
+                speed=2.1f;//速度
+                drag=0.6f;//拉
+                accel=0.1f;//加速
+                hitSize=18;//命中尺寸
+                faceTarget=true;//面部目标
+                range=90;//范围
+                health=3000;//生命
+                armor=2;//装甲
+                abilities.add(new ForceFieldAbility(200f, 0.3f, 4000f, 60f * 6));
+
+                BulletType i = new LaserBoltBulletType() {
+                    {
+                        range=900;
+                        speed=5f;
+                        width = 5f;
+                        damage = 500;
+                        drawSize =420f;
+                        incendAmount = 1;
+                        incendSpread =5;
+                        incendChance = 0.4f;
+                        lightColor = Color.blue;
+                    }};
+                weapons.addAll(
+                        new Weapon("sishe") {{
+                            reload=5;
+                            x=10;
+                            y=0;
+                            rotate=false;
+                            shootCone=170;
+                            ejectEffect=none;
+                            shootSound=explosionbig;
+                            mirror=false;
+                            inaccuracy=0;
+                            alternate=true;
+                            top=false;
+                            shootOnDeath=true;
+                            bullet = i;
+                        }},
+                        new Weapon("sishe") {{
+                            reload=5;
+                            x=-10;
+                            y=0;
+                            rotate=false;
+                            shootCone=170;
+                            ejectEffect=none;
+                            shootSound=explosionbig;
+                            mirror=false;
+                            inaccuracy=0;
+                            alternate=true;
+                            top=false;
+                            shootOnDeath=true;
+                            bullet = i;
+                        }}
+                );
+            }
+        };
     }
 }
 
