@@ -21,6 +21,7 @@ import mindustry.gen.UnitEntity;
 import mindustry.graphics.Pal;
 import mindustry.type.UnitType;
 import mindustry.type.Weapon;
+import modernwarfare.world.MWPal;
 
 import static mindustry.content.Fx.none;
 import static mindustry.content.Fx.*;
@@ -28,7 +29,9 @@ import static mindustry.gen.Sounds.*;
 
 
 public class MWUnitTypes {
-    public static UnitType nsxpp, xns, feiji1, caikuangji,zhongzixing,jichu,cuowu,genkui;
+    public static UnitType nsxpp, xns, feiji1, caikuangji,zhongzixing,jichu,cuowu,
+    //双子
+    genkui,muyue;
 
 
     public static void load() {
@@ -594,8 +597,29 @@ public class MWUnitTypes {
                 armor=2;//装甲
                 abilities.add(new ForceFieldAbility(200f, 0.3f, 4000f, 60f * 6));
 
+                parts.add(
+                        new HaloPart() {
+                            {
+                                color = Color.red;
+                                rotateSpeed = 3;
+                                sides = 3;
+                                shapes = 6;//围绕旋转的图形数量
+                                layer = 110;//所在图层高度
+                                tri = false;//是否三角形
+                                radius = 8;//开始时的大小
+                                radiusTo = 15;//结束时的大小
+                                triLength = 180;//三角形开始时的尖锐程度
+                                triLengthTo = 180;//三角形结束时的尖锐程度
+                                haloRadius = 30;//开始时的围绕半径
+                                haloRadiusTo = 50;//结束时的围绕半径
+                                haloRotation = 0;//开始时的角度
+                                haloRotateSpeed = 0.9f;//旋转速度
+                            }
+                        });
+
                 BulletType i = new LaserBoltBulletType() {
                     {
+                        lightColor = MWPal.sky11;
                         range=900;
                         speed=5f;
                         width = 5f;
@@ -604,7 +628,6 @@ public class MWUnitTypes {
                         incendAmount = 1;
                         incendSpread =5;
                         incendChance = 0.4f;
-                        lightColor = Color.blue;
                     }};
                 weapons.addAll(
                         new Weapon("sishe") {{
@@ -622,7 +645,7 @@ public class MWUnitTypes {
                             shootOnDeath=true;
                             bullet = i;
                         }},
-                        new Weapon("sishe") {{
+                        new Weapon("sishe1") {{
                             reload=5;
                             x=-10;
                             y=0;
@@ -640,6 +663,85 @@ public class MWUnitTypes {
                 );
             }
         };
+
+        muyue = new UnitType("muyue") {
+            {
+                constructor = LegsUnit::create;
+                speed=2.1f;//速度
+                drag=0.6f;//拉
+                accel=0.1f;//加速
+                hitSize=18;//命中尺寸
+                faceTarget=true;//面部目标
+                range=90;//范围
+                health=3000;//生命
+                armor=2;//装甲
+                abilities.add(new ForceFieldAbility(200f, 0.3f, 4000f, 60f * 6));
+
+                parts.add(
+                        new HaloPart() {
+                            {
+                                color = Color.blue;
+                                rotateSpeed = 3;
+                                sides = 3;
+                                shapes = 6;//围绕旋转的图形数量
+                                layer = 110;//所在图层高度
+                                tri = false;//是否三角形
+                                radius = 8;//开始时的大小
+                                radiusTo = 15;//结束时的大小
+                                triLength = 180;//三角形开始时的尖锐程度
+                                triLengthTo = 180;//三角形结束时的尖锐程度
+                                haloRadius = 30;//开始时的围绕半径
+                                haloRadiusTo = 50;//结束时的围绕半径
+                                haloRotation = 0;//开始时的角度
+                                haloRotateSpeed = 0.9f;//旋转速度
+                            }
+                        });
+
+                BulletType i = new LaserBoltBulletType() {
+                    {
+                        lightColor = MWPal.red22;
+                        range=900;
+                        speed=5f;
+                        width = 5f;
+                        damage = 500;
+                        drawSize =420f;
+                        incendAmount = 1;
+                        incendSpread =5;
+                        incendChance = 0.4f;
+                    }};
+                weapons.addAll(
+                        new Weapon("mingsi") {{
+                            reload=5;
+                            x=10;
+                            y=0;
+                            rotate=false;
+                            shootCone=170;
+                            ejectEffect=none;
+                            shootSound=explosionbig;
+                            mirror=false;
+                            inaccuracy=0;
+                            alternate=true;
+                            top=false;
+                            shootOnDeath=true;
+                            bullet = i;
+                        }},
+                        new Weapon("mingsi1") {{
+                            reload=5;
+                            x=-10;
+                            y=0;
+                            rotate=false;
+                            shootCone=170;
+                            ejectEffect=none;
+                            shootSound=explosionbig;
+                            mirror=false;
+                            inaccuracy=0;
+                            alternate=true;
+                            top=false;
+                            shootOnDeath=true;
+                            bullet = i;
+                        }}
+                );
+            }};
     }
 }
 
